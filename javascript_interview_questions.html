@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Interview Questions - Basic to Advanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .level-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .level-button:hover,
+        .level-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .expand-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .expand-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .expand-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .expand-btn:active {
+            transform: translateY(0px);
+        }
+
+        .questions-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .question-card {
+            background: #f9f9f9;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+        }
+
+        .question-card:hover {
+            background: #f0f0f0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .question-card.basic {
+            border-left-color: #4CAF50;
+        }
+
+        .question-card.intermediate {
+            border-left-color: #FF9800;
+        }
+
+        .question-card.advanced {
+            border-left-color: #F44336;
+        }
+
+        .question-card.project {
+            border-left-color: #2196F3;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .question-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .difficulty-badge.basic {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #FF9800;
+            color: white;
+        }
+
+        .difficulty-badge.advanced {
+            background: #F44336;
+            color: white;
+        }
+
+        .difficulty-badge.project {
+            background: #2196F3;
+            color: white;
+        }
+
+        .toggle-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+            color: #667eea;
+        }
+
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .question-body {
+            display: none;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            margin-top: 15px;
+        }
+
+        .question-body.open {
+            display: block;
+        }
+
+        .answer {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #667eea;
+        }
+
+        .answer h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #272822;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        .keyword {
+            color: #f92672;
+        }
+
+        .string {
+            color: #e6db74;
+        }
+
+        .function {
+            color: #a6e22e;
+        }
+
+        .comment {
+            color: #75715e;
+        }
+
+        .number {
+            color: #ae81ff;
+        }
+
+        .tip {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 3px;
+        }
+
+        .tip strong {
+            color: #ff9800;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .no-questions-msg {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .level-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 JavaScript Interview Questions</h1>
+            <p>Complete Guide: Basic to Advanced + Mini Projects</p>
+        </header>
+
+        <div class="content">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Basic Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Intermediate Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30+</div>
+                    <div class="stat-label">Advanced Questions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Mini Projects</div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="level-button active" onclick="filterQuestions('all', this)">All Questions</button>
+                <button class="level-button" onclick="filterQuestions('basic', this)">Basic</button>
+                <button class="level-button" onclick="filterQuestions('intermediate', this)">Intermediate</button>
+                <button class="level-button" onclick="filterQuestions('advanced', this)">Advanced</button>
+                <button class="level-button" onclick="filterQuestions('project', this)">Projects</button>
+            </div>
+
+            <div class="expand-controls">
+                <button class="expand-btn" onclick="expandAllQuestions()">✓ Expand All</button>
+                <button class="expand-btn" onclick="collapseAllQuestions()">✕ Collapse All</button>
+            </div>
+
+            <div class="questions-container" id="questionsContainer">
+                <!-- Questions will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <footer>
+            <p>💡 Pro Tip: Practice writing code for each answer. Don't just read!</p>
+            <p>Good Luck with Your Interview! 🎯</p>
+        </footer>
+    </div>
+
+    <script>
+        let currentFilter = 'all';
+
+        const questions = [
+            // BASIC QUESTIONS
+            {
+                level: 'basic',
+                number: 1,
+                title: 'What is JavaScript? What are its main uses?',
+                answer: `JavaScript is a high-level, interpreted programming language commonly used for:
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>Client-side web development (DOM manipulation)</li>
+                    <li>Creating interactive web pages</li>
+                    <li>Server-side development (Node.js)</li>
+                    <li>Mobile app development</li>
+                    <li>Desktop applications (Electron)</li>
+                </ul>
+                <p style="margin-top: 10px;"><strong>Key Features:</strong> Lightweight, event-driven, functional programming support.</p>`
+            },
+            {
+                level: 'basic',
+                number: 2,
+                title: 'Difference between var, let, and const?',
+                answer: `<table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="border: 1px solid #ddd; padding: 10px;">Feature</th>
+                        <th style="border: 1px solid #ddd; padding: 10px;">var</th>
+                        <th style="border: 1px solid #ddd; padding: 10px;">let</th>
+                        <th style="border: 1px solid #ddd; padding: 10px;">const</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Scope</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Function</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Block</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Block</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="border: 1px solid #ddd; padding: 10px;">Reassign</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Yes</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Yes</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">No</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Redeclare</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Yes</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">No</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">No</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="border: 1px solid #ddd; padding: 10px;">Hoisting</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">Undefined</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">TDZ</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">TDZ</td>
+                    </tr>
+                </table>
+                <div class="tip"><strong>Best Practice:</strong> Use const by default, let when you need to reassign, avoid var.</div>`
+            },
+            {
+                level: 'basic',
+                number: 3,
+                title: 'What are data types in JavaScript?',
+                answer: `<strong>Primitive Types (immutable):</strong>
+                <div class="code-block">
+let num = 42; // Number
+let str = "Hello"; // String
+let bool = true; // Boolean
+let undef = undefined; // Undefined
+let nul = null; // Null
+let sym = Symbol("id"); // Symbol (unique)
+let big = 123n; // BigInt
+                </div>
+                <strong>Reference Types (mutable):</strong>
+                <div class="code-block">
+let obj = { name: "John" }; // Object
+let arr = [1, 2, 3]; // Array
+let func = function() {}; // Function
+                </div>
+                <div class="tip"><strong>Key Difference:</strong> Primitives are passed by value, references are passed by reference.</div>`
+            },
+            {
+                level: 'basic',
+                number: 4,
+                title: 'What is hoisting in JavaScript?',
+                answer: `<strong>Definition:</strong> Hoisting is JavaScript's default behavior of moving declarations to the top of their scope before code execution.
+                <div class="code-block">
+<span class="comment">// Function hoisting - works!</span>
+console.<span class="function">log</span>(<span class="function">add</span>(<span class="number">5</span>, <span class="number">3</span>)); <span class="comment">// 8</span>
+
+<span class="keyword">function</span> <span class="function">add</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// Variable hoisting with var</span>
+console.<span class="function">log</span>(x); <span class="comment">// undefined (not error!)</span>
+<span class="keyword">var</span> x = <span class="number">5</span>;
+
+<span class="comment">// Variable hoisting with let/const - Temporal Dead Zone</span>
+<span class="comment">// console.log(y); // ReferenceError</span>
+<span class="keyword">let</span> y = <span class="number">10</span>;
+                </div>
+                <div class="tip"><strong>Note:</strong> let and const are hoisted but not initialized (Temporal Dead Zone).</div>`
+            },
+            {
+                level: 'basic',
+                number: 5,
+                title: 'What is the difference between == and ===?',
+                answer: `<strong>== (Loose Equality):</strong> Compares values with type coercion.
+                <div class="code-block">
+<span class="number">5</span> == <span class="string">"5"</span> <span class="comment">// true (type coercion)</span>
+<span class="keyword">null</span> == <span class="keyword">undefined</span> <span class="comment">// true</span>
+<span class="number">0</span> == <span class="keyword">false</span> <span class="comment">// true</span>
+                </div>
+                <strong>=== (Strict Equality):</strong> Compares values without type coercion.
+                <div class="code-block">
+<span class="number">5</span> === <span class="string">"5"</span> <span class="comment">// false (different types)</span>
+<span class="keyword">null</span> === <span class="keyword">undefined</span> <span class="comment">// false</span>
+<span class="number">0</span> === <span class="keyword">false</span> <span class="comment">// false</span>
+                </div>
+                <div class="tip"><strong>Best Practice:</strong> Always use === to avoid unexpected behavior.</div>`
+            },
+            {
+                level: 'basic',
+                number: 6,
+                title: 'What is a function? Different ways to create functions?',
+                answer: `<strong>1. Function Declaration:</strong>
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">greet</span>(name) {
+    <span class="keyword">return</span> <span class="string">"Hello, "</span> + name;
+}
+                </div>
+                <strong>2. Function Expression:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> add = <span class="keyword">function</span>(a, b) {
+    <span class="keyword">return</span> a + b;
+};
+                </div>
+                <strong>3. Arrow Function:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> multiply = (a, b) => a * b;
+<span class="keyword">const</span> square = x => x * x;
+                </div>
+                <div class="tip"><strong>Note:</strong> Arrow functions don't have their own 'this' binding.</div>`
+            },
+            {
+                level: 'basic',
+                number: 7,
+                title: 'What is an array? Common array methods?',
+                answer: `<strong>Array Declaration:</strong>
+                <div class="code-block">
+<span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+                </div>
+                <strong>Common Methods:</strong>
+                <div class="code-block">
+arr.<span class="function">push</span>(<span class="number">4</span>); <span class="comment">// Add to end [1,2,3,4]</span>
+arr.<span class="function">pop</span>(); <span class="comment">// Remove from end [1,2,3]</span>
+arr.<span class="function">shift</span>(); <span class="comment">// Remove from start [2,3]</span>
+arr.<span class="function">unshift</span>(<span class="number">1</span>); <span class="comment">// Add to start [1,2,3]</span>
+arr.<span class="function">slice</span>(<span class="number">0</span>, <span class="number">2</span>); <span class="comment">// [1,2] (doesn't modify)</span>
+arr.<span class="function">splice</span>(<span class="number">1</span>, <span class="number">1</span>); <span class="comment">// Remove and modify</span>
+arr.<span class="function">indexOf</span>(<span class="number">2</span>); <span class="comment">// 1</span>
+arr.<span class="function">includes</span>(<span class="number">2</span>); <span class="comment">// true</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 8,
+                title: 'What is an object? How to access properties?',
+                answer: `<strong>Object Declaration:</strong>
+                <div class="code-block">
+<span class="keyword">let</span> person = {
+    name: <span class="string">"John"</span>,
+    age: <span class="number">30</span>,
+    <span class="function">greet</span>: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="string">"Hi"</span>;
+    }
+};
+                </div>
+                <strong>Accessing Properties:</strong>
+                <div class="code-block">
+<span class="comment">// Dot notation</span>
+person.name; <span class="comment">// "John"</span>
+
+<span class="comment">// Bracket notation</span>
+person[<span class="string">"age"</span>]; <span class="comment">// 30</span>
+
+<span class="comment">// Method call</span>
+person.<span class="function">greet</span>(); <span class="comment">// "Hi"</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 9,
+                title: 'What is the typeof operator? Give examples.',
+                answer: `<strong>typeof returns the data type of a value:</strong>
+                <div class="code-block">
+<span class="keyword">typeof</span> <span class="number">42</span>; <span class="comment">// "number"</span>
+<span class="keyword">typeof</span> <span class="string">"hello"</span>; <span class="comment">// "string"</span>
+<span class="keyword">typeof</span> <span class="keyword">true</span>; <span class="comment">// "boolean"</span>
+<span class="keyword">typeof</span> {}; <span class="comment">// "object"</span>
+<span class="keyword">typeof</span> []; <span class="comment">// "object" (array is object)</span>
+<span class="keyword">typeof</span> <span class="keyword">undefined</span>; <span class="comment">// "undefined"</span>
+<span class="keyword">typeof</span> <span class="keyword">null</span>; <span class="comment">// "object" (quirk!)</span>
+<span class="keyword">typeof</span> <span class="keyword">function</span>() {}; <span class="comment">// "function"</span>
+                </div>
+                <div class="tip"><strong>Quirk:</strong> typeof null returns "object" due to a bug in JavaScript.</div>`
+            },
+            {
+                level: 'basic',
+                number: 10,
+                title: 'What is the difference between null and undefined?',
+                answer: `<strong>undefined:</strong> Variable is declared but not assigned a value.
+                <div class="code-block">
+<span class="keyword">let</span> x;
+console.<span class="function">log</span>(x); <span class="comment">// undefined</span>
+
+<span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="comment">// no return</span>
+}
+test(); <span class="comment">// returns undefined</span>
+                </div>
+                <strong>null:</strong> Intentional assignment of no value.
+                <div class="code-block">
+<span class="keyword">let</span> y = <span class="keyword">null</span>;
+console.<span class="function">log</span>(y); <span class="comment">// null</span>
+                </div>
+                <div class="tip"><strong>Key Difference:</strong> undefined is unintentional, null is intentional.</div>`
+            },
+            {
+                level: 'basic',
+                number: 11,
+                title: 'What is string concatenation? Ways to concatenate?',
+                answer: `<strong>1. Using + operator:</strong>
+                <div class="code-block">
+<span class="string">"Hello"</span> + <span class="string">" "</span> + <span class="string">"World"</span>; <span class="comment">// "Hello World"</span>
+                </div>
+                <strong>2. Using template literals (backticks):</strong>
+                <div class="code-block">
+<span class="keyword">const</span> name = <span class="string">"John"</span>;
+<span class="string">\`Hello, \${name}!\`</span>; <span class="comment">// "Hello, John!"</span>
+                </div>
+                <strong>3. Using concat() method:</strong>
+                <div class="code-block">
+<span class="string">"Hello"</span>.<span class="function">concat</span>(<span class="string">" "</span>, <span class="string">"World"</span>); <span class="comment">// "Hello World"</span>
+                </div>
+                <div class="tip"><strong>Best Practice:</strong> Use template literals for better readability.</div>`
+            },
+            {
+                level: 'basic',
+                number: 12,
+                title: 'What is NaN? How to check for NaN?',
+                answer: `<strong>NaN (Not-a-Number):</strong> Result of invalid numeric operations.
+                <div class="code-block">
+<span class="number">0</span> / <span class="number">0</span>; <span class="comment">// NaN</span>
+<span class="keyword">parseInt</span>(<span class="string">"hello"</span>); <span class="comment">// NaN</span>
+<span class="string">"text"</span> * <span class="number">5</span>; <span class="comment">// NaN</span>
+                </div>
+                <strong>Checking for NaN:</strong>
+                <div class="code-block">
+<span class="keyword">let</span> x = NaN;
+<span class="keyword">typeof</span> x; <span class="comment">// "number" (quirk!)</span>
+
+<span class="comment">// Wrong way:</span>
+x == NaN; <span class="comment">// false (NaN !== NaN)</span>
+
+<span class="comment">// Right way:</span>
+<span class="keyword">isNaN</span>(x); <span class="comment">// true</span>
+Number.<span class="function">isNaN</span>(x); <span class="comment">// true (more reliable)</span>
+Object.<span class="function">is</span>(x, NaN); <span class="comment">// true</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 13,
+                title: 'What are comparison operators? List all.',
+                answer: `<strong>List of Comparison Operators:</strong>
+                <div class="code-block">
+<span class="number">5</span> > <span class="number">3</span>; <span class="comment">// true (greater than)</span>
+<span class="number">5</span> < <span class="number">3</span>; <span class="comment">// false (less than)</span>
+<span class="number">5</span> >= <span class="number">5</span>; <span class="comment">// true (greater than or equal)</span>
+<span class="number">3</span> <= <span class="number">5</span>; <span class="comment">// true (less than or equal)</span>
+<span class="number">5</span> == <span class="number">5</span>; <span class="comment">// true (loose equality)</span>
+<span class="number">5</span> === <span class="number">5</span>; <span class="comment">// true (strict equality)</span>
+<span class="number">5</span> != <span class="number">3</span>; <span class="comment">// true (loose inequality)</span>
+<span class="number">5</span> !== <span class="number">3</span>; <span class="comment">// true (strict inequality)</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 14,
+                title: 'What are logical operators?',
+                answer: `<strong>Logical Operators:</strong>
+                <div class="code-block">
+<span class="keyword">true</span> && <span class="keyword">false</span>; <span class="comment">// false (AND - both true)</span>
+<span class="keyword">true</span> || <span class="keyword">false</span>; <span class="comment">// true (OR - at least one true)</span>
+!<span class="keyword">true</span>; <span class="comment">// false (NOT - negation)</span>
+                </div>
+                <strong>Short-circuit behavior:</strong>
+                <div class="code-block">
+<span class="keyword">let</span> x = <span class="number">0</span>;
+<span class="keyword">false</span> && (x = <span class="number">1</span>); <span class="comment">// x stays 0 (AND short-circuits)</span>
+<span class="keyword">true</span> || (x = <span class="number">2</span>); <span class="comment">// x stays 0 (OR short-circuits)</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 15,
+                title: 'What is a callback function?',
+                answer: `<strong>Definition:</strong> A function passed to another function to be executed later.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">greet</span>(name, <span class="function">callback</span>) {
+    console.<span class="function">log</span>(<span class="string">"Hello, "</span> + name);
+    <span class="function">callback</span>(); <span class="comment">// Execute callback</span>
+}
+
+<span class="keyword">function</span> <span class="function">sayGoodbye</span>() {
+    console.<span class="function">log</span>(<span class="string">"Goodbye!"</span>);
+}
+
+<span class="function">greet</span>(<span class="string">"John"</span>, <span class="function">sayGoodbye</span>);
+<span class="comment">// Output:</span>
+<span class="comment">// Hello, John</span>
+<span class="comment">// Goodbye!</span>
+                </div>
+                <div class="tip"><strong>Usage:</strong> Callbacks are used for async operations, event handling, and array methods.</div>`
+            },
+            {
+                level: 'basic',
+                number: 16,
+                title: 'What is type coercion?',
+                answer: `<strong>Type Coercion:</strong> Automatic conversion of values from one type to another.
+                <div class="code-block">
+<span class="string">"5"</span> + <span class="number">3</span>; <span class="comment">// "53" (number coerced to string)</span>
+<span class="number">5</span> - <span class="string">"3"</span>; <span class="comment">// 2 (string coerced to number)</span>
+<span class="number">5</span> * <span class="string">"2"</span>; <span class="comment">// 10</span>
+!<span class="number">0</span>; <span class="comment">// true (0 is falsy)</span>
+!!<span class="string">"hello"</span>; <span class="comment">// true (non-empty string is truthy)</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 17,
+                title: 'What is the ternary operator?',
+                answer: `<strong>Ternary Operator:</strong> Shorthand for if-else (condition ? trueValue : falseValue).
+                <div class="code-block">
+<span class="keyword">const</span> age = <span class="number">20</span>;
+<span class="keyword">const</span> status = age >= <span class="number">18</span> ? <span class="string">"Adult"</span> : <span class="string">"Minor"</span>;
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 18,
+                title: 'What is method chaining?',
+                answer: `<strong>Method Chaining:</strong> Calling multiple methods sequentially on same object.
+                <div class="code-block">
+<span class="string">"  Hello World  "</span>.<span class="function">trim</span>().<span class="function">toLowerCase</span>();
+<span class="comment">// "hello world"</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 19,
+                title: 'What is a Pure Function?',
+                answer: `<strong>Pure Function:</strong> Returns same output for same input, no side effects.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">add</span>(a, b) {
+    <span class="keyword">return</span> a + b; <span class="comment">// Pure</span>
+}
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 20,
+                title: 'What is event delegation?',
+                answer: `<strong>Event Delegation:</strong> Attach single listener to parent for multiple children.
+                <div class="code-block">
+<span class="keyword">const</span> container = document.<span class="function">querySelector</span>(<span class="string">".container"</span>);
+container.<span class="function">addEventListener</span>(<span class="string">"click"</span>, (e) => {
+    <span class="keyword">if</span> (e.target.<span class="function">classList</span>.<span class="function">contains</span>(<span class="string">"btn"</span>)) {
+        console.<span class="function">log</span>(<span class="string">"Button clicked"</span>);
+    }
+});
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 21,
+                title: 'What are getters and setters?',
+                answer: `<strong>Getter:</strong> Gets property value. <strong>Setter:</strong> Sets property value.
+                <div class="code-block">
+<span class="keyword">const</span> user = {
+    _age: <span class="number">0</span>,
+    <span class="function">get</span> age() { <span class="keyword">return</span> <span class="keyword">this</span>._age; },
+    <span class="function">set</span> age(value) { <span class="keyword">this</span>._age = value; }
+};
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 22,
+                title: 'What is the void operator?',
+                answer: `<strong>void Operator:</strong> Evaluates expression and returns undefined.
+                <div class="code-block">
+<span class="keyword">void</span> <span class="number">0</span>; <span class="comment">// undefined</span>
+<span class="keyword">&lt;a</span> href=<span class="string">"javascript:void(0)"</span><span class="keyword">&gt;</span>Link<span class="keyword">&lt;/a&gt;</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 23,
+                title: 'What is array indexing and length?',
+                answer: `<strong>Array Indexing:</strong> Accessing elements by position (0-based).
+                <div class="code-block">
+<span class="keyword">const</span> arr = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>];
+arr[<span class="number">0</span>]; <span class="comment">// "a"</span>
+arr.length; <span class="comment">// 3</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 24,
+                title: 'What is a static method?',
+                answer: `<strong>Static Method:</strong> Called on class, not instance.
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">Math2</span> {
+    <span class="keyword">static</span> <span class="function">add</span>(a, b) {
+        <span class="keyword">return</span> a + b;
+    }
+}
+Math2.<span class="function">add</span>(<span class="number">5</span>, <span class="number">3</span>); <span class="comment">// 8</span>
+                </div>`
+            },
+            {
+                level: 'basic',
+                number: 25,
+                title: 'What is the difference between includes and indexOf?',
+                answer: `<strong>includes():</strong> Returns true/false.
+                <strong>indexOf():</strong> Returns index or -1.
+                <div class="code-block">
+<span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+arr.<span class="function">includes</span>(<span class="number">2</span>); <span class="comment">// true</span>
+arr.<span class="function">indexOf</span>(<span class="number">2</span>); <span class="comment">// 1</span>
+                </div>`
+            },
+
+            // INTERMEDIATE QUESTIONS
+            {
+                level: 'intermediate',
+                number: 1,
+                title: 'What is scope in JavaScript?',
+                answer: `<strong>Scope:</strong> Determines where variables are accessible.
+                <div class="code-block">
+<span class="comment">// Global scope</span>
+<span class="keyword">var</span> global = <span class="string">"global"</span>;
+
+<span class="keyword">function</span> <span class="function">test</span>() {
+    <span class="comment">// Function scope</span>
+    <span class="keyword">let</span> local = <span class="string">"local"</span>;
+    
+    <span class="keyword">if</span> (<span class="keyword">true</span>) {
+        <span class="comment">// Block scope</span>
+        <span class="keyword">const</span> block = <span class="string">"block"</span>;
+    }
+}
+                </div>
+                <strong>Scope Chain:</strong> Variables are searched from inner to outer scope.
+                <div class="tip"><strong>Best Practice:</strong> Use minimal scope necessary (const > let > var).</div>`
+            },
+            {
+                level: 'intermediate',
+                number: 2,
+                title: 'What is closure? Provide a practical example.',
+                answer: `<strong>Closure:</strong> Function that has access to outer function's variables.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">createCounter</span>() {
+    <span class="keyword">let</span> count = <span class="number">0</span>; <span class="comment">// Private variable</span>
+    
+    <span class="keyword">return</span> {
+        <span class="function">increment</span>: <span class="keyword">function</span>() {
+            count++;
+            <span class="keyword">return</span> count;
+        },
+        <span class="function">getCount</span>: <span class="keyword">function</span>() {
+            <span class="keyword">return</span> count;
+        }
+    };
+}
+
+<span class="keyword">const</span> counter = <span class="function">createCounter</span>();
+counter.<span class="function">increment</span>(); <span class="comment">// 1</span>
+counter.<span class="function">increment</span>(); <span class="comment">// 2</span>
+counter.<span class="function">getCount</span>(); <span class="comment">// 2</span>
+                </div>
+                <div class="tip"><strong>Use Case:</strong> Creating private variables, data encapsulation, callbacks.</div>`
+            },
+            {
+                level: 'intermediate',
+                number: 3,
+                title: 'What is "this" keyword? How does it work?',
+                answer: `<strong>"this" refers to the object it belongs to.</strong>
+                <div class="code-block">
+<span class="keyword">const</span> person = {
+    name: <span class="string">"John"</span>,
+    <span class="function">greet</span>: <span class="keyword">function</span>() {
+        console.<span class="function">log</span>(<span class="keyword">this</span>.name); <span class="comment">// "John"</span>
+    }
+};
+
+person.<span class="function">greet</span>();
+                </div>
+                <strong>"this" in different contexts:</strong>
+                <div class="code-block">
+<span class="comment">// In global scope</span>
+console.<span class="function">log</span>(<span class="keyword">this</span>); <span class="comment">// window (browser) or global (Node.js)</span>
+
+<span class="comment">// In regular function</span>
+<span class="keyword">function</span> <span class="function">test</span>() {
+    console.<span class="function">log</span>(<span class="keyword">this</span>); <span class="comment">// global object</span>
+}
+
+<span class="comment">// In arrow function</span>
+<span class="keyword">const</span> arrow = () => {
+    console.<span class="function">log</span>(<span class="keyword">this</span>); <span class="comment">// parent's this</span>
+}
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 4,
+                title: 'What are call(), apply(), and bind()?',
+                answer: `<strong>These methods control what "this" refers to.</strong>
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">introduce</span>(greeting) {
+    <span class="keyword">return</span> greeting + <span class="string">", "</span> + <span class="keyword">this</span>.name;
+}
+
+<span class="keyword">const</span> person1 = { name: <span class="string">"John"</span> };
+<span class="keyword">const</span> person2 = { name: <span class="string">"Jane"</span> };
+
+<span class="comment">// call() - execute immediately</span>
+<span class="function">introduce</span>.<span class="function">call</span>(person1, <span class="string">"Hi"</span>); <span class="comment">// "Hi, John"</span>
+
+<span class="comment">// apply() - similar to call but takes array</span>
+<span class="function">introduce</span>.<span class="function">apply</span>(person2, [<span class="string">"Hello"</span>]); <span class="comment">// "Hello, Jane"</span>
+
+<span class="comment">// bind() - returns new function with fixed 'this'</span>
+<span class="keyword">const</span> boundFunc = <span class="function">introduce</span>.<span class="function">bind</span>(person1);
+<span class="function">boundFunc</span>(<span class="string">"Hey"</span>); <span class="comment">// "Hey, John"</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 5,
+                title: 'What are higher-order functions?',
+                answer: `<strong>Higher-Order Functions:</strong> Functions that take or return other functions.
+                <div class="code-block">
+<span class="comment">// Function as parameter</span>
+<span class="keyword">function</span> <span class="function">execute</span>(func, value) {
+    <span class="keyword">return</span> <span class="function">func</span>(value);
+}
+
+<span class="function">execute</span>(<span class="keyword">x</span> => x * <span class="number">2</span>, <span class="number">5</span>); <span class="comment">// 10</span>
+
+<span class="comment">// Function returning function</span>
+<span class="keyword">function</span> <span class="function">createMultiplier</span>(factor) {
+    <span class="keyword">return</span> <span class="keyword">x</span> => x * factor;
+}
+
+<span class="keyword">const</span> double = <span class="function">createMultiplier</span>(<span class="number">2</span>);
+<span class="function">double</span>(<span class="number">5</span>); <span class="comment">// 10</span>
+                </div>
+                <div class="tip"><strong>Examples:</strong> map(), filter(), reduce(), setTimeout().</div>`
+            },
+            {
+                level: 'intermediate',
+                number: 6,
+                title: 'Explain map(), filter(), and reduce().',
+                answer: `<strong>map():</strong> Transform each element.
+                <div class="code-block">
+<span class="keyword">const</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="keyword">const</span> doubled = nums.<span class="function">map</span>(x => x * <span class="number">2</span>);
+<span class="comment">// [2, 4, 6]</span>
+                </div>
+                <strong>filter():</strong> Keep elements that pass test.
+                <div class="code-block">
+<span class="keyword">const</span> evens = nums.<span class="function">filter</span>(x => x % <span class="number">2</span> === <span class="number">0</span>);
+<span class="comment">// [2]</span>
+                </div>
+                <strong>reduce():</strong> Combine elements into single value.
+                <div class="code-block">
+<span class="keyword">const</span> sum = nums.<span class="function">reduce</span>((acc, x) => acc + x, <span class="number">0</span>);
+<span class="comment">// 6</span>
+                </div>
+                <div class="tip"><strong>All are non-mutating:</strong> Don't modify original array.</div>`
+            },
+            {
+                level: 'intermediate',
+                number: 7,
+                title: 'What is destructuring? Examples?',
+                answer: `<strong>Array Destructuring:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> [first, second, ...rest] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
+<span class="comment">// first = 1, second = 2, rest = [3, 4]</span>
+                </div>
+                <strong>Object Destructuring:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> { name, age } = { name: <span class="string">"John"</span>, age: <span class="number">30</span> };
+<span class="comment">// name = "John", age = 30</span>
+
+<span class="comment">// With renaming</span>
+<span class="keyword">const</span> { name: personName } = { name: <span class="string">"John"</span> };
+
+<span class="comment">// With defaults</span>
+<span class="keyword">const</span> { country = <span class="string">"USA"</span> } = { name: <span class="string">"John"</span> };
+<span class="comment">// country = "USA"</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 8,
+                title: 'What is spread operator (...)?',
+                answer: `<strong>Spreading Arrays:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>];
+<span class="keyword">const</span> arr2 = [<span class="number">3</span>, <span class="number">4</span>];
+<span class="keyword">const</span> merged = [...arr1, ...arr2]; <span class="comment">// [1, 2, 3, 4]</span>
+
+<span class="keyword">const</span> copy = [...arr1]; <span class="comment">// Shallow copy</span>
+                </div>
+                <strong>Spreading Objects:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> obj1 = { name: <span class="string">"John"</span> };
+<span class="keyword">const</span> obj2 = { age: <span class="number">30</span> };
+<span class="keyword">const</span> merged = { ...obj1, ...obj2 };
+<span class="comment">// { name: "John", age: 30 }</span>
+
+<span class="keyword">const</span> override = { ...obj1, name: <span class="string">"Jane"</span> };
+<span class="comment">// { name: "Jane" }</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 9,
+                title: 'What is rest parameter?',
+                answer: `<strong>Rest Parameter (...):</strong> Capture remaining arguments into array.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">sum</span>(...nums) {
+    <span class="keyword">return</span> nums.<span class="function">reduce</span>((a, b) => a + b, <span class="number">0</span>);
+}
+
+<span class="function">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 6</span>
+<span class="function">sum</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>); <span class="comment">// 15</span>
+
+<span class="comment">// Combined with regular parameters</span>
+<span class="keyword">function</span> <span class="function">greet</span>(greeting, ...names) {
+    console.<span class="function">log</span>(greeting + <span class="string">": "</span> + names.<span class="function">join</span>(<span class="string">", "</span>));
+}
+
+<span class="function">greet</span>(<span class="string">"Hi"</span>, <span class="string">"John"</span>, <span class="string">"Jane"</span>); <span class="comment">// "Hi: John, Jane"</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 10,
+                title: 'What is Promise? What are its states?',
+                answer: `<strong>Promise:</strong> Represents eventual completion/failure of async operation.
+                <div class="code-block">
+<span class="keyword">const</span> promise = <span class="keyword">new</span> Promise((resolve, reject) => {
+    <span class="keyword">setTimeout</span>(() => {
+        resolve(<span class="string">"Success!"</span>);
+    }, <span class="number">1000</span>);
+});
+
+promise
+    .<span class="function">then</span>(result => console.<span class="function">log</span>(result))
+    .<span class="function">catch</span>(error => console.<span class="function">log</span>(error))
+    .<span class="function">finally</span>(() => console.<span class="function">log</span>(<span class="string">"Done"</span>));
+                </div>
+                <strong>Three States:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Pending:</strong> Initial state (operation not yet finished)</li>
+                    <li><strong>Fulfilled (Resolved):</strong> Operation completed successfully</li>
+                    <li><strong>Rejected:</strong> Operation failed</li>
+                </ul>`
+            },
+            {
+                level: 'intermediate',
+                number: 11,
+                title: 'What is async/await? How different from promises?',
+                answer: `<strong>async/await:</strong> Syntactic sugar over promises, makes async code look sync.
+                <div class="code-block">
+<span class="keyword">async function</span> <span class="function">fetchData</span>() {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">"/api/data"</span>);
+        <span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+        <span class="keyword">return</span> data;
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">log</span>(error);
+    }
+}
+                </div>
+                <strong>vs Promise approach:</strong>
+                <div class="code-block">
+<span class="function">fetch</span>(<span class="string">"/api/data"</span>)
+    .<span class="function">then</span>(res => res.<span class="function">json</span>())
+    .<span class="function">then</span>(data => console.<span class="function">log</span>(data))
+    .<span class="function">catch</span>(err => console.<span class="function">log</span>(err));
+                </div>
+                <div class="tip"><strong>Advantage:</strong> Cleaner, easier to read, easier error handling.</div>`
+            },
+            {
+                level: 'intermediate',
+                number: 12,
+                title: 'What is JSON? How to parse and stringify?',
+                answer: `<strong>JSON (JavaScript Object Notation):</strong> Data format for data exchange.
+                <div class="code-block">
+<span class="keyword">const</span> user = { name: <span class="string">"John"</span>, age: <span class="number">30</span> };
+
+<span class="comment">// Convert object to JSON string</span>
+<span class="keyword">const</span> json = JSON.<span class="function">stringify</span>(user);
+<span class="comment">// '{"name":"John","age":30}'</span>
+
+<span class="comment">// Parse JSON string to object</span>
+<span class="keyword">const</span> parsed = JSON.<span class="function">parse</span>(json);
+<span class="comment">// { name: "John", age: 30 }</span>
+
+<span class="comment">// Pretty print with indentation</span>
+<span class="keyword">const</span> pretty = JSON.<span class="function">stringify</span>(user, <span class="keyword">null</span>, <span class="number">2</span>);
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 13,
+                title: 'What are template literals?',
+                answer: `<strong>Template Literals:</strong> String with embedded expressions using backticks.
+                <div class="code-block">
+<span class="keyword">const</span> name = <span class="string">"John"</span>;
+<span class="keyword">const</span> age = <span class="number">30</span>;
+
+<span class="comment">// Simple interpolation</span>
+<span class="string">\`Hello, \${name}!\`</span>; <span class="comment">// "Hello, John!"</span>
+
+<span class="comment">// With expressions</span>
+<span class="string">\`In 5 years: \${age + 5}\`</span>; <span class="comment">// "In 5 years: 35"</span>
+
+<span class="comment">// Multi-line strings</span>
+<span class="keyword">const</span> html = \`
+    &lt;div&gt;
+        &lt;p&gt;\${name}&lt;/p&gt;
+    &lt;/div&gt;
+\`;
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 14,
+                title: 'What is the difference between Set and Map?',
+                answer: `<strong>Set:</strong> Collection of unique values.
+                <div class="code-block">
+<span class="keyword">const</span> set = <span class="keyword">new</span> Set([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>]);
+<span class="comment">// Set { 1, 2, 3 } - duplicates removed</span>
+
+set.<span class="function">add</span>(<span class="number">4</span>);
+set.<span class="function">has</span>(<span class="number">2</span>); <span class="comment">// true</span>
+set.<span class="function">delete</span>(<span class="number">2</span>);
+set.size; <span class="comment">// 3</span>
+                </div>
+                <strong>Map:</strong> Collection of key-value pairs.
+                <div class="code-block">
+<span class="keyword">const</span> map = <span class="keyword">new</span> Map();
+map.<span class="function">set</span>(<span class="string">"name"</span>, <span class="string">"John"</span>);
+map.<span class="function">set</span>(<span class="string">"age"</span>, <span class="number">30</span>);
+
+map.<span class="function">get</span>(<span class="string">"name"</span>); <span class="comment">// "John"</span>
+map.<span class="function">has</span>(<span class="string">"age"</span>); <span class="comment">// true</span>
+map.size; <span class="comment">// 2</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 15,
+                title: 'What are optional chaining (?.) and nullish coalescing (??)?',
+                answer: `<strong>Optional Chaining (?.):</strong> Safe access to nested properties.
+                <div class="code-block">
+<span class="keyword">const</span> user = { name: <span class="string">"John"</span> };
+
+user?.name; <span class="comment">// "John"</span>
+user?.address?.city; <span class="comment">// undefined (no error)</span>
+user?.phone?.number; <span class="comment">// undefined (safe)</span>
+                </div>
+                <strong>Nullish Coalescing (??):</strong> Default value for null/undefined.
+                <div class="code-block">
+<span class="keyword">const</span> x = <span class="keyword">null</span>;
+<span class="keyword">const</span> y = x ?? <span class="string">"default"</span>; <span class="comment">// "default"</span>
+
+<span class="keyword">const</span> a = <span class="number">0</span>;
+<span class="keyword">const</span> b = a ?? <span class="number">10</span>; <span class="comment">// 0 (0 is not null)</span>
+
+<span class="comment">// vs || operator</span>
+<span class="keyword">const</span> c = <span class="number">0</span> || <span class="number">10</span>; <span class="comment">// 10 (0 is falsy)</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 16,
+                title: 'What is a polyfill?',
+                answer: `<strong>Polyfill:</strong> Code that provides functionality for older browsers.
+                <div class="code-block">
+<span class="keyword">if</span> (!Array.prototype.<span class="function">includes</span>) {
+    Array.prototype.<span class="function">includes</span> = <span class="keyword">function</span>(value) {
+        <span class="keyword">return</span> <span class="keyword">this</span>.<span class="function">indexOf</span>(value) !== -<span class="number">1</span>;
+    };
+}
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 17,
+                title: 'What is event bubbling vs capturing?',
+                answer: `<strong>Bubbling:</strong> Child → Parent. <strong>Capturing:</strong> Parent → Child.
+                <div class="code-block">
+element.<span class="function">addEventListener</span>(<span class="string">"click"</span>, handler, <span class="keyword">false</span>); <span class="comment">// Bubbling</span>
+element.<span class="function">addEventListener</span>(<span class="string">"click"</span>, handler, <span class="keyword">true</span>); <span class="comment">// Capturing</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 18,
+                title: 'What is the difference between slice and splice?',
+                answer: `<strong>slice():</strong> Non-mutating, returns new array.
+                <strong>splice():</strong> Mutating, modifies original.
+                <div class="code-block">
+<span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+arr.<span class="function">slice</span>(<span class="number">1</span>); <span class="comment">// [2, 3]</span>
+arr.<span class="function">splice</span>(<span class="number">1</span>, <span class="number">1</span>); <span class="comment">// [2] - arr now [1, 3]</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 19,
+                title: 'What is the flat() and flatMap() method?',
+                answer: `<strong>flat():</strong> Flattens nested arrays.
+                <div class="code-block">
+[<span class="number">1</span>, [<span class="number">2</span>, [<span class="number">3</span>]]].<span class="function">flat</span>(<span class="number">2</span>); <span class="comment">// [1, 2, 3]</span>
+[<span class="number">1</span>, <span class="number">2</span>].<span class="function">flatMap</span>(x => [x, x * <span class="number">2</span>]); <span class="comment">// [1, 2, 2, 4]</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 20,
+                title: 'What is forEach() and what does it return?',
+                answer: `<strong>forEach():</strong> Iterates over elements, returns undefined.
+                <div class="code-block">
+[<span class="number">1</span>, <span class="number">2</span>].<span class="function">forEach</span>((v, i) => console.<span class="function">log</span>(v, i));
+<span class="comment">// Not chainable, returns undefined</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 21,
+                title: 'What is findIndex() method?',
+                answer: `<strong>findIndex():</strong> Returns index of first matching element.
+                <div class="code-block">
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="function">findIndex</span>(x => x > <span class="number">2</span>); <span class="comment">// 2</span>
+[<span class="number">1</span>, <span class="number">2</span>].<span class="function">findIndex</span>(x => x > <span class="number">10</span>); <span class="comment">// -1</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 22,
+                title: 'What is Promise.all() vs Promise.race()?',
+                answer: `<strong>all():</strong> All succeed or reject.
+                <strong>race():</strong> First to settle wins.
+                <div class="code-block">
+Promise.<span class="function">all</span>([p1, p2]); <span class="comment">// Waits for all</span>
+Promise.<span class="function">race</span>([p1, p2]); <span class="comment">// First result</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 23,
+                title: 'What is Promise.allSettled()?',
+                answer: `<strong>allSettled():</strong> Returns results of all (fulfilled/rejected).
+                <div class="code-block">
+Promise.<span class="function">allSettled</span>([
+   Promise.<span class="function">resolve</span>(<span class="number">1</span>),
+    Promise.<span class="function">reject</span>(<span class="string">"err"</span>)
+]);<span class="comment">// Both results returned</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 24,
+                title: 'What is the difference between Object.keys() and Object.entries()?',
+                answer: `<strong>keys():</strong> Returns keys only.
+                <strong>entries():</strong> Returns [key, value] pairs.
+                <div class="code-block">
+<span class="keyword">const</span> obj = {a: <span class="number">1</span>, b: <span class="number">2</span>};
+Object.<span class="function">keys</span>(obj); <span class="comment">// ['a', 'b']</span>
+Object.<span class="function">entries</span>(obj); <span class="comment">// [['a',1], ['b',2]]</span>
+                </div>`
+            },
+            {
+                level: 'intermediate',
+                number: 25,
+                title: 'What is Object.assign()?',
+                answer: `<strong>assign():</strong> Merges objects (shallow copy).
+                <div class="code-block">
+<span class="keyword">const</span> obj1 = {a: <span class="number">1</span>};
+<span class="keyword">const</span> obj2 = {b: <span class="number">2</span>};
+Object.<span class="function">assign</span>({}, obj1, obj2); <span class="comment">// {a:1, b:2}</span>
+                </div>`
+            },
+
+            // ADVANCED QUESTIONS
+            {
+                level: 'advanced',
+                number: 1,
+                title: 'Explain event loop and how JavaScript handles async operations.',
+                answer: `<strong>Event Loop:</strong> JavaScript is single-threaded but handles async operations via event loop.
+                <div class="code-block">
+console.<span class="function">log</span>(<span class="string">"1"</span>); <span class="comment">// Synchronous</span>
+
+<span class="keyword">setTimeout</span>(() => {
+    console.<span class="function">log</span>(<span class="string">"2"</span>); <span class="comment">// Async (goes to event queue)</span>
+}, <span class="number">0</span>);
+
+Promise.<span class="function">resolve</span>().<span class="function">then</span>(() => {
+    console.<span class="function">log</span>(<span class="string">"3"</span>); <span class="comment">// Microtask (higher priority)</span>
+});
+
+console.<span class="function">log</span>(<span class="string">"4"</span>); <span class="comment">// Synchronous</span>
+
+<span class="comment">// Output: 1, 4, 3, 2</span>
+                </div>
+                <strong>Order of Execution:</strong>
+                <ol style="margin-left: 20px;">
+                    <li>Synchronous code (call stack)</li>
+                    <li>Microtasks (Promises, async/await)</li>
+                    <li>Macrotasks (setTimeout, setInterval)</li>
+                </ol>`
+            },
+            {
+                level: 'advanced',
+                number: 2,
+                title: 'What is a class in JavaScript? Explain inheritance.',
+                answer: `<strong>ES6 Class:</strong> Syntactic sugar over prototype-based inheritance.
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">Animal</span> {
+    <span class="function">constructor</span>(name) {
+        <span class="keyword">this</span>.name = name;
+    }
+    
+    <span class="function">speak</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" makes sound"</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="function">Dog</span> <span class="keyword">extends</span> Animal {
+    <span class="function">constructor</span>(name, breed) {
+        <span class="keyword">super</span>(name);
+        <span class="keyword">this</span>.breed = breed;
+    }
+    
+    <span class="function">speak</span>() {
+        <span class="keyword">return</span> <span class="keyword">this</span>.name + <span class="string">" barks"</span>;
+    }
+}
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="function">Dog</span>(<span class="string">"Max"</span>, <span class="string">"Labrador"</span>);
+dog.<span class="function">speak</span>(); <span class="comment">// "Max barks"</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 3,
+                title: 'What is prototype and prototype chain?',
+                answer: `<strong>Prototype:</strong> Object that provides shared properties/methods.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">Person</span>(name) {
+    <span class="keyword">this</span>.name = name;
+}
+
+Person.prototype.<span class="function">greet</span> = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> <span class="string">"Hello, "</span> + <span class="keyword">this</span>.name;
+};
+
+<span class="keyword">const</span> john = <span class="keyword">new</span> <span class="function">Person</span>(<span class="string">"John"</span>);
+john.<span class="function">greet</span>(); <span class="comment">// "Hello, John"</span>
+                </div>
+                <strong>Prototype Chain:</strong> Property lookup goes up the chain.
+                <div class="code-block">
+john.greet <span class="comment">// Found in Person.prototype</span>
+john.toString <span class="comment">// Found in Object.prototype</span>
+john.nonexistent <span class="comment">// undefined (reached end of chain)</span>
+                </div>
+                <div class="tip"><strong>Key Concept:</strong> Every object has __proto__ pointing to its prototype.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 4,
+                title: 'What is the difference between shallow copy and deep copy?',
+                answer: `<strong>Shallow Copy:</strong> Only copies top level, nested objects are referenced.
+                <div class="code-block">
+<span class="keyword">const</span> original = { name: <span class="string">"John"</span>, address: { city: <span class="string">"NY"</span> } };
+<span class="keyword">const</span> shallow = { ...original };
+
+shallow.name = <span class="string">"Jane"</span>; <span class="comment">// Doesn't affect original</span>
+shallow.address.city = <span class="string">"LA"</span>; <span class="comment">// AFFECTS original!</span>
+                </div>
+                <strong>Deep Copy:</strong> Copies all levels, nested objects are duplicated.
+                <div class="code-block">
+<span class="keyword">const</span> deepCopy = JSON.<span class="function">parse</span>(JSON.<span class="function">stringify</span>(original));
+deepCopy.address.city = <span class="string">"LA"</span>; <span class="comment">// Doesn't affect original</span>
+
+<span class="comment">// Or using structuredClone (newer)</span>
+<span class="keyword">const</span> deepCopy2 = <span class="function">structuredClone</span>(original);
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 5,
+                title: 'What is debouncing and throttling?',
+                answer: `<strong>Debouncing:</strong> Execute function after delay (useful for search, resize).
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">debounce</span>(func, delay) {
+    <span class="keyword">let</span> timerId;
+    <span class="keyword">return</span> <span class="keyword">function</span>(...args) {
+        <span class="keyword">clearTimeout</span>(timerId);
+        timerId = <span class="keyword">setTimeout</span>(() => <span class="function">func</span>(...args), delay);
+    };
+}
+
+<span class="keyword">const</span> search = <span class="function">debounce</span>((term) => {
+    console.<span class="function">log</span>(<span class="string">"Searching for:"</span>, term);
+}, <span class="number">500</span>);
+                </div>
+                <strong>Throttling:</strong> Execute function at regular intervals (useful for scroll).
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">throttle</span>(func, limit) {
+    <span class="keyword">let</span> lastCall = <span class="number">0</span>;
+    <span class="keyword">return</span> <span class="keyword">function</span>(...args) {
+        <span class="keyword">const</span> now = Date.<span class="function">now</span>();
+        <span class="keyword">if</span> (now - lastCall >= limit) {
+            <span class="function">func</span>(...args);
+            lastCall = now;
+        }
+    };
+}
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 6,
+                title: 'Explain currying in JavaScript.',
+                answer: `<strong>Currying:</strong> Breaking down function with multiple args into sequence of functions.
+                <div class="code-block">
+<span class="comment">// Normal function</span>
+<span class="keyword">function</span> <span class="function">add</span>(a, b, c) {
+    <span class="keyword">return</span> a + b + c;
+}
+<span class="function">add</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>); <span class="comment">// 6</span>
+
+<span class="comment">// Curried function</span>
+<span class="keyword">const</span> curriedAdd = (a) => (b) => (c) => a + b + c;
+<span class="function">curriedAdd</span>(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>); <span class="comment">// 6</span>
+
+<span class="comment">// Partial application</span>
+<span class="keyword">const</span> add5 = <span class="function">curriedAdd</span>(<span class="number">5</span>);
+<span class="function">add5</span>(<span class="number">2</span>)(<span class="number">3</span>); <span class="comment">// 10</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 7,
+                title: 'What is memoization? Provide an example.',
+                answer: `<strong>Memoization:</strong> Cache function results to avoid recalculation.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">memoize</span>(func) {
+    <span class="keyword">const</span> cache = {};
+    <span class="keyword">return</span> <span class="keyword">function</span>(...args) {
+        <span class="keyword">const</span> key = JSON.<span class="function">stringify</span>(args);
+        <span class="keyword">if</span> (key <span class="keyword">in</span> cache) {
+            <span class="keyword">return</span> cache[key];
+        }
+        <span class="keyword">const</span> result = <span class="function">func</span>(...args);
+        cache[key] = result;
+        <span class="keyword">return</span> result;
+    };
+}
+
+<span class="keyword">const</span> fibonacci = <span class="function">memoize</span>((n) => {
+    <span class="keyword">if</span> (n <= <span class="number">1</span>) <span class="keyword">return</span> n;
+    <span class="keyword">return</span> <span class="function">fibonacci</span>(n - <span class="number">1</span>) + <span class="function">fibonacci</span>(n - <span class="number">2</span>);
+});
+
+<span class="function">fibonacci</span>(<span class="number">10</span>); <span class="comment">// Much faster!</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 8,
+                title: 'What is composition and pipe?',
+                answer: `<strong>Function Composition:</strong> Combine functions to create new function.
+                <div class="code-block">
+<span class="keyword">const</span> add1 = x => x + <span class="number">1</span>;
+<span class="keyword">const</span> double = x => x * <span class="number">2</span>;
+
+<span class="comment">// Compose function (right to left)</span>
+<span class="keyword">const</span> <span class="function">compose</span> = (...fns) => x => fns.<span class="function">reduceRight</span>((acc, fn) => <span class="function">fn</span>(acc), x);
+<span class="keyword">const</span> composed = <span class="function">compose</span>(double, add1);
+<span class="function">composed</span>(<span class="number">2</span>); <span class="comment">// (2+1)*2 = 6</span>
+
+<span class="comment">// Pipe function (left to right)</span>
+<span class="keyword">const</span> <span class="function">pipe</span> = (...fns) => x => fns.<span class="function">reduce</span>((acc, fn) => <span class="function">fn</span>(acc), x);
+<span class="keyword">const</span> piped = <span class="function">pipe</span>(add1, double);
+<span class="function">piped</span>(<span class="number">2</span>); <span class="comment">// (2+1)*2 = 6</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 9,
+                title: 'What is the difference between == and === at deep level?',
+                answer: `<strong>== (Loose Equality):</strong> Uses type coercion rules.
+                <div class="code-block">
+<span class="string">""</span> == <span class="number">0</span>; <span class="comment">// true (string coerced to number)</span>
+<span class="string">""</span> == <span class="keyword">false</span>; <span class="comment">// true</span>
+<span class="number">0</span> == <span class="keyword">false</span>; <span class="comment">// true</span>
+<span class="keyword">null</span> == <span class="keyword">undefined</span>; <span class="comment">// true (special case)</span>
+                </div>
+                <strong>=== (Strict Equality):</strong> No type coercion, must be same type.
+                <div class="code-block">
+<span class="string">""</span> === <span class="number">0</span>; <span class="comment">// false</span>
+<span class="string">""</span> === <span class="keyword">false</span>; <span class="comment">// false</span>
+<span class="number">NaN</span> === <span class="number">NaN</span>; <span class="comment">// false (special case!)</span>
+Object.<span class="function">is</span>(<span class="number">NaN</span>, <span class="number">NaN</span>); <span class="comment">// true (safer)</span>
+                </div>
+                <div class="tip"><strong>Always use ===</strong> for predictable behavior.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 10,
+                title: 'What is monkey patching? Is it safe?',
+                answer: `<strong>Monkey Patching:</strong> Modifying existing objects at runtime.
+                <div class="code-block">
+<span class="comment">// Bad practice - modifying native prototype</span>
+Array.prototype.<span class="function">customMethod</span> = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> this.<span class="function">map</span>(x => x * <span class="number">2</span>);
+};
+
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="function">customMethod</span>(); <span class="comment">// [2, 4, 6]</span>
+
+<span class="comment">// Risks:</span>
+<span class="comment">// - Conflicts with library code</span>
+<span class="comment">// - Hard to debug</span>
+<span class="comment">// - Function might change in future</span>
+
+<span class="comment">// Better approach - extend without patching</span>
+<span class="keyword">const</span> <span class="function">customArray</span> = (arr) => ({
+    ...arr,
+    <span class="function">customMethod</span>: () => arr.<span class="function">map</span>(x => x * <span class="number">2</span>)
+});
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 11,
+                title: 'Explain WeakMap and WeakSet. When to use them?',
+                answer: `<strong>WeakMap:</strong> Map with weak references, keys must be objects.
+                <div class="code-block">
+<span class="keyword">const</span> wm = <span class="keyword">new</span> WeakMap();
+<span class="keyword">let</span> obj = { name: <span class="string">"John"</span> };
+
+wm.<span class="function">set</span>(obj, <span class="string">"value"</span>);
+wm.<span class="function">get</span>(obj); <span class="comment">// "value"</span>
+
+<span class="comment">// When obj is garbage collected, entry is removed</span>
+obj = <span class="keyword">null</span>;
+<span class="comment">// wm.get(obj) now returns undefined</span>
+                </div>
+                <strong>Use Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Private data storage for objects</li>
+                    <li>DOM node metadata without preventing garbage collection</li>
+                    <li>Preventing memory leaks</li>
+                </ul>
+                <strong>WeakSet:</strong> Similar to WeakMap but for unique values.`
+            },
+            {
+                level: 'advanced',
+                number: 12,
+                title: 'What is Object.create()? How is it different from constructor?',
+                answer: `<strong>Object.create():</strong> Creates object with specific prototype.
+                <div class="code-block">
+<span class="keyword">const</span> prototype = {
+    <span class="function">greet</span>: <span class="keyword">function</span>() {
+        <span class="keyword">return</span> <span class="string">"Hello"</span>;
+    }
+};
+
+<span class="keyword">const</span> obj = Object.<span class="function">create</span>(prototype);
+obj.<span class="function">greet</span>(); <span class="comment">// "Hello"</span>
+
+<span class="comment">// vs Constructor function</span>
+<span class="keyword">function</span> <span class="function">Person</span>(name) {
+    <span class="keyword">this</span>.name = name;
+}
+
+<span class="keyword">const</span> person = <span class="keyword">new</span> <span class="function">Person</span>(<span class="string">"John"</span>);
+                </div>
+                <strong>Differences:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Object.create() directly sets prototype</li>
+                    <li>Constructor initializes properties via this</li>
+                    <li>Object.create() more explicit about prototype chain</li>
+                </ul>`
+            },
+            {
+                level: 'advanced',
+                number: 13,
+                title: 'What is Proxy and Reflect?',
+                answer: `<strong>Proxy:</strong> Intercept and customize operations on objects.
+                <div class="code-block">
+<span class="keyword">const</span> handler = {
+    <span class="function">get</span>: (target, prop) => {
+        console.<span class="function">log</span>(<span class="string">"Accessing"</span>, prop);
+        <span class="keyword">return</span> target[prop];
+    },
+    <span class="function">set</span>: (target, prop, value) => {
+        console.<span class="function">log</span>(<span class="string">"Setting"</span>, prop, <span class="string">"to"</span>, value);
+        target[prop] = value;
+        <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+};
+
+<span class="keyword">const</span> obj = { name: <span class="string">"John"</span> };
+<span class="keyword">const</span> proxy = <span class="keyword">new</span> Proxy(obj, handler);
+
+proxy.name; <span class="comment">// Logs "Accessing name"</span>
+proxy.age = <span class="number">30</span>; <span class="comment">// Logs "Setting age to 30"</span>
+                </div>
+                <strong>Use Cases:</strong> Validation, data binding, logging, access control.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 14,
+                title: 'What is a generator function?',
+                answer: `<strong>Generator Function:</strong> Function that can pause and resume execution.
+                <div class="code-block">
+<span class="keyword">function</span>* <span class="function">generator</span>() {
+    <span class="keyword">yield</span> <span class="number">1</span>;
+    <span class="keyword">yield</span> <span class="number">2</span>;
+    <span class="keyword">yield</span> <span class="number">3</span>;
+}
+
+<span class="keyword">const</span> gen = <span class="function">generator</span>();
+gen.<span class="function">next</span>(); <span class="comment">// { value: 1, done: false }</span>
+gen.<span class="function">next</span>(); <span class="comment">// { value: 2, done: false }</span>
+gen.<span class="function">next</span>(); <span class="comment">// { value: 3, done: false }</span>
+gen.<span class="function">next</span>(); <span class="comment">// { value: undefined, done: true }</span>
+
+<span class="comment">// Using in for...of loop</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> <span class="function">generator</span>()) {
+    console.<span class="function">log</span>(value); <span class="comment">// 1, 2, 3</span>
+}
+                </div>
+                <strong>Use Cases:</strong> Iterators, lazy evaluation, async handling.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 15,
+                title: 'What is Symbol? When to use it?',
+                answer: `<strong>Symbol:</strong> Unique, immutable value (ES6).
+                <div class="code-block">
+<span class="keyword">const</span> id = Symbol(<span class="string">"id"</span>);
+<span class="keyword">const</span> id2 = Symbol(<span class="string">"id"</span>);
+
+id === id2; <span class="comment">// false (always unique)</span>
+
+<span class="keyword">const</span> obj = {
+    name: <span class="string">"John"</span>,
+    [id]: <span class="string">"secret-value"</span>
+};
+
+obj.name; <span class="comment">// "John"</span>
+obj[id]; <span class="comment">// "secret-value"</span>
+
+<span class="comment">// Can't access with for...in or Object.keys()</span>
+Object.<span class="function">keys</span>(obj); <span class="comment">// ["name"] - id is hidden</span>
+                </div>
+                <strong>Use Cases:</strong> Hide properties, avoid name collisions, meta-programming.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 16,
+                title: 'What is instanceof operator? How does it work?',
+                answer: `<strong>instanceof:</strong> Checks if object is instance of class/constructor.
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">Animal</span> {}
+<span class="keyword">class</span> <span class="function">Dog</span> <span class="keyword">extends</span> Animal {}
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="function">Dog</span>();
+
+dog <span class="keyword">instanceof</span> Dog; <span class="comment">// true</span>
+dog <span class="keyword">instanceof</span> Animal; <span class="comment">// true (inheritance)</span>
+dog <span class="keyword">instanceof</span> Object; <span class="comment">// true (all objects)</span>
+
+<span class="comment">// How it works: calls [Symbol.hasInstance]</span>
+Dog.<span class="function">hasInstance</span>(dog); <span class="comment">// true</span>
+                </div>
+                <strong>Note:</strong> Checks prototype chain, not just direct constructor.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 17,
+                title: 'What is Object.defineProperty()? Use cases?',
+                answer: `<strong>Object.defineProperty():</strong> Define or modify property with full control.
+                <div class="code-block">
+<span class="keyword">const</span> obj = {};
+
+Object.<span class="function">defineProperty</span>(obj, <span class="string">"name"</span>, {
+    value: <span class="string">"John"</span>,
+    writable: <span class="keyword">false</span>, <span class="comment">// Can't be changed</span>
+    enumerable: <span class="keyword">true</span>, <span class="comment">// Shows in for...in</span>
+    configurable: <span class="keyword">false</span> <span class="comment">// Can't be deleted</span>
+});
+
+obj.name = <span class="string">"Jane"</span>; <span class="comment">// Fails silently (or throws in strict mode)</span>
+
+<span class="comment">// With getter/setter</span>
+Object.<span class="function">defineProperty</span>(obj, <span class="string">"age"</span>, {
+    <span class="function">get</span>: () => <span class="keyword">this</span>._age,
+    <span class="function">set</span>: (value) => { <span class="keyword">this</span>._age = value; }
+});
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 18,
+                title: 'What is the difference between for...in and for...of?',
+                answer: `<strong>for...in:</strong> Iterates over enumerable property names (keys).
+                <div class="code-block">
+<span class="keyword">const</span> obj = { a: <span class="number">1</span>, b: <span class="number">2</span> };
+<span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> obj) {
+    console.<span class="function">log</span>(key); <span class="comment">// "a", "b"</span>
+}
+
+<span class="keyword">const</span> arr = [<span class="string">"x"</span>, <span class="string">"y"</span>];
+<span class="keyword">for</span> (<span class="keyword">const</span> index <span class="keyword">in</span> arr) {
+    console.<span class="function">log</span>(index); <span class="comment">// 0, 1 (as strings!)</span>
+}
+                </div>
+                <strong>for...of:</strong> Iterates over iterable values (not keys).
+                <div class="code-block">
+<span class="keyword">const</span> arr = [<span class="string">"x"</span>, <span class="string">"y"</span>];
+<span class="keyword">for</span> (<span class="keyword">const</span> value <span class="keyword">of</span> arr) {
+    console.<span class="function">log</span>(value); <span class="comment">// "x", "y"</span>
+}
+
+<span class="keyword">const</span> str = <span class="string">"Hi"</span>;
+<span class="keyword">for</span> (<span class="keyword">const</span> char <span class="keyword">of</span> str) {
+    console.<span class="function">log</span>(char); <span class="comment">// "H", "i"</span>
+}
+                </div>
+                <div class="tip"><strong>Use for...of</strong> for arrays, for...in for objects.</div>`
+            },
+            {
+                level: 'advanced',
+                number: 19,
+                title: 'What is tail call optimization?',
+                answer: `<strong>Tail Call Optimization:</strong> Compiler optimizes recursive calls to use same stack frame.
+                <div class="code-block">
+<span class="comment">// Tail call (last operation is the call)</span>
+<span class="keyword">function</span> <span class="function">factorial</span>(n, acc = <span class="number">1</span>) {
+    <span class="keyword">if</span> (n <= <span class="number">1</span>) <span class="keyword">return</span> acc;
+    <span class="keyword">return</span> <span class="function">factorial</span>(n - <span class="number">1</span>, n * acc);
+}
+
+<span class="function">factorial</span>(<span class="number">1000</span>); <span class="comment">// Won't overflow (in strict mode)</span>
+
+<span class="comment">// Non-tail call (does computation after call returns)</span>
+<span class="keyword">function</span> <span class="function">factorial2</span>(n) {
+    <span class="keyword">if</span> (n <= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;
+    <span class="keyword">return</span> n * <span class="function">factorial2</span>(n - <span class="number">1</span>); <span class="comment">// multiplication happens after</span>
+}
+
+<span class="comment">// Supported in strict mode, some browsers</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 20,
+                title: 'What are performance considerations for arrays vs linked lists?',
+                answer: `<strong>Array:</strong> Fixed size, contiguous memory.
+                <ul style="margin-left: 20px;">
+                    <li><strong>Access:</strong> O(1) - direct index access</li>
+                    <li><strong>Insert/Delete:</strong> O(n) - needs shifting</li>
+                    <li><strong>Memory:</strong> Contiguous, cache-friendly</li>
+                </ul>
+                <strong>Linked List:</strong> Dynamic, scattered memory.
+                <ul style="margin-left: 20px;">
+                    <li><strong>Access:</strong> O(n) - must traverse</li>
+                    <li><strong>Insert/Delete:</strong> O(1) - just change pointers</li>
+                    <li><strong>Memory:</strong> Scattered, more cache misses</li>
+                </ul>
+                <strong>JavaScript Arrays:</strong> Optimized arrays, use linked lists internally for sparse arrays.
+                <div class="code-block">
+<span class="comment">// Dense array (optimized)</span>
+<span class="keyword">const</span> arr1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// Sparse array (slower)</span>
+<span class="keyword">const</span> arr2 = [];
+arr2[<span class="number">0</span>] = <span class="number">1</span>;
+arr2[<span class="number">1000</span>] = <span class="number">2</span>;
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 21,
+                title: 'What is the Temporal Dead Zone (TDZ)?',
+                answer: `<strong>TDZ:</strong> Time between variable declaration and initialization.
+                <div class="code-block">
+<span class="comment">// ReferenceError</span>
+console.<span class="function">log</span>(x);
+<span class="keyword">let</span> x = <span class="number">5</span>;
+
+<span class="comment">// var is hoisted (no TDZ)</span>
+console.<span class="function">log</span>(y); <span class="comment">// undefined</span>
+<span class="keyword">var</span> y = <span class="number">5</span>;
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 22,
+                title: 'What is tree shaking?',
+                answer: `<strong>Tree Shaking:</strong> Removes unused code from bundle.
+                <div class="code-block">
+<span class="keyword">export</span> <span class="keyword">function</span> <span class="function">used</span>() { }
+<span class="keyword">export</span> <span class="keyword">function</span> <span class="function">unused</span>() { }
+
+<span class="keyword">import</span> { <span class="function">used</span> } <span class="keyword">from</span> <span class="string">"./lib"</span>;
+<span class="comment">// unused() removed from bundle</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 23,
+                title: 'What is microtask vs macrotask?',
+                answer: `<strong>Microtask (higher priority):</strong> Promise, async/await
+                <strong>Macrotask (lower priority):</strong> setTimeout
+                <div class="code-block">
+<span class="keyword">setTimeout</span>(() => console.<span class="function">log</span>(<span class="string">"2"</span>));
+Promise.<span class="function">resolve</span>().<span class="function">then</span>(() => console.<span class="function">log</span>(<span class="string">"1"</span>));
+<span class="comment">// Output: 1, 2</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 24,
+                title: 'What is isNaN vs Number.isNaN()?',
+                answer: `<strong>isNaN():</strong> Coerces to number first.
+                <strong>Number.isNaN():</strong> Strict check.
+                <div class="code-block">
+<span class="keyword">isNaN</span>(<span class="string">"hello"</span>); <span class="comment">// true</span>
+Number.<span class="function">isNaN</span>(<span class="string">"hello"</span>); <span class="comment">// false</span>
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 25,
+                title: 'What is the module pattern?',
+                answer: `<strong>Module Pattern:</strong> Encapsulates code, prevents global pollution.
+                <div class="code-block">
+<span class="keyword">const</span> calculator = (() => {
+    <span class="keyword">let</span> result = <span class="number">0</span>; <span class="comment">// Private</span>
+    <span class="keyword">return</span> {
+        add: (x) => result += x,
+        get: () => result
+    };
+})();
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 26,
+                title: 'What is the Factory Pattern?',
+                answer: `<strong>Factory Pattern:</strong> Creates objects without using new keyword.
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">createUser</span>(name, age) {
+    <span class="keyword">return</span> {
+        name, age,
+        <span class="function">greet</span>: () => \`Hi, \${name}\`
+    };
+}
+<span class="keyword">const</span> user = <span class="function">createUser</span>(<span class="string">"John"</span>, <span class="number">30</span>);
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 27,
+                title: 'What is JSON serialization and deserialization?',
+                answer: `<strong>Serialization:</strong> Convert object to JSON string.
+                <strong>Deserialization:</strong> Convert JSON to object.
+                <div class="code-block">
+<span class="keyword">const</span> obj = {name: <span class="string">"John"</span>};
+<span class="keyword">const</span> json = JSON.<span class="function">stringify</span>(obj);
+<span class="keyword">const</span> parsed = JSON.<span class="function">parse</span>(json);
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 28,
+                title: 'What is the Observer Pattern?',
+                answer: `<strong>Observer Pattern:</strong> Notifies multiple objects of changes.
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">Subject</span> {
+    <span class="function">constructor</span>() {
+        <span class="keyword">this</span>.observers = [];
+    }
+    <span class="function">subscribe</span>(fn) {
+        <span class="keyword">this</span>.observers.<span class="function">push</span>(fn);
+    }
+    <span class="function">notify</span>(data) {
+        <span class="keyword">this</span>.observers.<span class="function">forEach</span>(fn => <span class="function">fn</span>(data));
+    }
+}
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 29,
+                title: 'What is the Singleton Pattern?',
+                answer: `<strong>Singleton Pattern:</strong> Ensures only one instance exists.
+                <div class="code-block">
+<span class="keyword">const</span> Singleton = (() => {
+    <span class="keyword">let</span> instance;
+    <span class="keyword">return</span> {
+        <span class="function">getInstance</span>: () => {
+            <span class="keyword">if</span> (!instance) {
+                instance = { /* data */ };
+            }
+            <span class="keyword">return</span> instance;
+        }
+    };
+})();
+                </div>`
+            },
+            {
+                level: 'advanced',
+                number: 30,
+                title: 'What is service worker?',
+                answer: `<strong>Service Worker:</strong> Background script for offline support, caching.
+                <div class="code-block">
+<span class="comment">// Register service worker</span>
+navigator.serviceWorker.<span class="function">register</span>(<span class="string">"/sw.js"</span>);
+
+<span class="comment">// In sw.js</span>
+self.<span class="function">addEventListener</span>(<span class="string">"install"</span>, (event) => {
+    console.<span class="function">log</span>(<span class="string">"SW installed"</span>);
+});
+                </div>`
+            },
+
+            // MINI PROJECTS
+            {
+                level: 'project',
+                number: 1,
+                title: 'Project 1: Build a To-Do Application',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Add, delete, and mark tasks as complete</li>
+                    <li>Store tasks in localStorage</li>
+                    <li>Display task list with filters (All, Active, Completed)</li>
+                    <li>Edit existing tasks</li>
+                </ul>
+                <strong>Key Topics to Practice:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>DOM manipulation (querySelector, addEventListener)</li>
+                    <li>localStorage API</li>
+                    <li>Array methods (map, filter, find)</li>
+                    <li>Event handling</li>
+                    <li>Closures and state management</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How would you handle data persistence without a backend?</li>
+                    <li>How would you implement undo/redo functionality?</li>
+                    <li>What's the best way to generate unique IDs for tasks?</li>
+                    <li>How would you optimize for large lists (1000+ items)?</li>
+                    <li>How to prevent XSS attacks when displaying user input?</li>
+                    <li>How would you implement task prioritization or categories?</li>
+                </ul>
+                <strong>Edge Cases to Handle:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>localStorage is full (quota exceeded)</li>
+                    <li>Browser data is cleared</li>
+                    <li>Concurrent updates from multiple tabs</li>
+                    <li>Empty task titles or special characters</li>
+                    <li>Browser doesn't support localStorage</li>
+                </ul>
+                <strong>Starter Code:</strong>
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">TodoApp</span> {
+    <span class="function">constructor</span>(selector) {
+        <span class="keyword">this</span>.container = document.<span class="function">querySelector</span>(selector);
+        <span class="keyword">this</span>.tasks = this.<span class="function">loadFromStorage</span>();
+        <span class="keyword">this</span>.<span class="function">render</span>();
+    }
+    
+    <span class="function">addTask</span>(title) { }
+    <span class="function">deleteTask</span>(id) { }
+    <span class="function">toggleTask</span>(id) { }
+    <span class="function">render</span>() { }
+    <span class="function">loadFromStorage</span>() { }
+    <span class="function">saveToStorage</span>() { }
+}
+                </div>`
+            },
+            {
+                level: 'project',
+                number: 2,
+                title: 'Project 2: Build a Weather App',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Fetch weather data from API (OpenWeatherMap)</li>
+                    <li>Display current weather for searched city</li>
+                    <li>Show temperature, humidity, wind speed</li>
+                    <li>Handle loading and error states</li>
+                    <li>Cache recent searches</li>
+                </ul>
+                <strong>Key Topics to Practice:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Fetch API or axios</li>
+                    <li>Promises and async/await</li>
+                    <li>Error handling (try-catch)</li>
+                    <li>DOM manipulation</li>
+                    <li>Debouncing (for search input)</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How would you handle API rate limits?</li>
+                    <li>How to implement request cancellation for old searches?</li>
+                    <li>What's the difference between Fetch and Axios?</li>
+                    <li>How to cache API responses efficiently?</li>
+                    <li>How to handle CORS issues?</li>
+                    <li>How would you implement geolocation-based weather?</li>
+                </ul>
+                <strong>Edge Cases to Handle:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Invalid city names</li>
+                    <li>API key is invalid or expired</li>
+                    <li>Network timeout or slow connection</li>
+                    <li>API rate limit exceeded</li>
+                    <li>User rapidly searches multiple cities</li>
+                </ul>
+                <strong>Starter Code:</strong>
+                <div class="code-block">
+<span class="keyword">async function</span> <span class="function">getWeather</span>(city) {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(
+            <span class="string">\`https://api.openweathermap.org/...\${city}\`</span>
+        );
+        <span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+        <span class="keyword">return</span> data;
+    } <span class="keyword">catch</span> (error) {
+        console.<span class="function">error</span>(<span class="string">"Error fetching weather"</span>, error);
+    }
+}
+                </div>`
+            },
+            {
+                level: 'project',
+                number: 3,
+                title: 'Project 3: Build a Shopping Cart',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Display products with images and prices</li>
+                    <li>Add/remove items from cart</li>
+                    <li>Calculate total price</li>
+                    <li>Apply discount codes</li>
+                    <li>Persist cart in localStorage</li>
+                    <li>Responsive design</li>
+                </ul>
+                <strong>Key Topics to Practice:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Object-oriented programming (classes)</li>
+                    <li>Array methods (reduce for total)</li>
+                    <li>Event delegation</li>
+                    <li>State management</li>
+                    <li>localStorage API</li>
+                    <li>CSS for responsive layout</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How would you implement discount code validation?</li>
+                    <li>How to handle inventory/stock limitations?</li>
+                    <li>How would you calculate taxes based on location?</li>
+                    <li>How to implement a wishlist feature?</li>
+                    <li>How to handle concurrent cart updates?</li>
+                    <li>What's the best way to structure cart data?</li>
+                </ul>
+                <strong>Edge Cases to Handle:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Out of stock items</li>
+                    <li>Price changes while item is in cart</li>
+                    <li>Invalid discount codes</li>
+                    <li>Expired promotional offers</li>
+                    <li>Cart recovery after browser crash</li>
+                </ul>
+                <strong>Core Methods Needed:</strong>
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">ShoppingCart</span> {
+    addItem(product) { }
+    removeItem(productId) { }
+    updateQuantity(productId, quantity) { }
+    applyDiscount(code) { }
+    getTotal() { }
+    checkout() { }
+}
+                </div>`
+            },
+            {
+                level: 'project',
+                number: 4,
+                title: 'Project 4: Build a Quiz Application',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Display questions with multiple choice answers</li>
+                    <li>Track correct/incorrect answers</li>
+                    <li>Show score at the end</li>
+                    <li>Timer for each question</li>
+                    <li>Store results in database or localStorage</li>
+                    <li>Show detailed results/feedback</li>
+                </ul>
+                <strong>Key Topics to Practice:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Managing application state</li>
+                    <li>setTimeout and setInterval</li>
+                    <li>DOM manipulation</li>
+                    <li>Event handling</li>
+                    <li>Data validation</li>
+                    <li>LocalStorage for persistence</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How would you shuffle answer options securely?</li>
+                    <li>How to prevent cheating (copy-paste questions, etc)?</li>
+                    <li>How to implement different difficulty levels?</li>
+                    <li>How to handle time synchronization across browsers?</li>
+                    <li>How would you implement review/retake functionality?</li>
+                    <li>How to calculate score with different question weights?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>User closes browser before completing quiz</li>
+                    <li>Time runs out mid-question</li>
+                    <li>Network disconnect during quiz</li>
+                    <li>Multiple questions with same correct answer</li>
+                </ul>
+                <strong>Class Structure:</strong>
+                <div class="code-block">
+<span class="keyword">class</span> <span class="function">Quiz</span> {
+    <span class="function">loadQuestions</span>() { }
+    <span class="function">displayQuestion</span>() { }
+    <span class="function">selectAnswer</span>(answer) { }
+    <span class="function">calculateScore</span>() { }
+    <span class="function">showResults</span>() { }
+}
+                </div>`
+            },
+            {
+                level: 'project',
+                number: 5,
+                title: 'Project 5: Build a Chat Application (Beginner)',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Send/receive messages</li>
+                    <li>Multiple users (simulate with different names)</li>
+                    <li>Display user avatars/names</li>
+                    <li>Timestamps for messages</li>
+                    <li>Clear chat history</li>
+                    <li>Real-time message updates (simple simulation)</li>
+                </ul>
+                <strong>Key Topics to Practice:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>DOM manipulation (createElement, appendChild)</li>
+                    <li>Event listeners</li>
+                    <li>Array methods</li>
+                    <li>Date and time formatting</li>
+                    <li>LocalStorage for history</li>
+                    <li>Optional: WebSockets for real-time (advanced)</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to handle message ordering/synchronization?</li>
+                    <li>How to implement typing indicators?</li>
+                    <li>How to prevent message duplication?</li>
+                    <li>How to implement private vs group chats?</li>
+                    <li>How to handle emoji and special characters?</li>
+                    <li>How would you scale to millions of messages?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Messages arrive out of order</li>
+                    <li>Same message sent twice</li>
+                    <li>User goes offline then online</li>
+                    <li>Storage quota exceeded</li>
+                    <li>Special characters or long messages</li>
+                </ul>
+                <strong>Data Structure:</strong>
+                <div class="code-block">
+<span class="keyword">const</span> messageData = {
+    id: <span class="number">1</span>,
+    user: <span class="string">"John"</span>,
+    message: <span class="string">"Hello!"</span>,
+    timestamp: <span class="number">1234567890</span>,
+    avatar: <span class="string">"url"</span>
+};
+
+<span class="keyword">class</span> <span class="function">ChatApp</span> {
+    <span class="function">sendMessage</span>(text) { }
+    <span class="function">displayMessage</span>(msg) { }
+    <span class="function">loadHistory</span>() { }
+}
+                </div>`
+            },
+            {
+                level: 'project',
+                number: 6,
+                title: 'Project 6: Build an E-commerce Product Filter',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Display product list with images, name, price</li>
+                    <li>Filter by price range, category, rating</li>
+                    <li>Sort by name, price, popularity</li>
+                    <li>Search products by keyword</li>
+                    <li>Add to cart functionality</li>
+                    <li>Responsive grid layout</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Array methods (filter, map, sort)</li>
+                    <li>Event listeners and debouncing</li>
+                    <li>DOM manipulation and rendering</li>
+                    <li>CSS Grid and Flexbox</li>
+                    <li>Performance optimization</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to optimize filtering for large datasets?</li>
+                    <li>How to handle multiple filters simultaneously?</li>
+                    <li>How to implement search with typo tolerance?</li>
+                    <li>How to lazy-load product images?</li>
+                    <li>How to persist filter preferences?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>No products match applied filters</li>
+                    <li>Price range filter with invalid values</li>
+                    <li>Loading large number of products</li>
+                    <li>Conflicting filter selections</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 7,
+                title: 'Project 7: Build a Markdown Note Taker',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Create, edit, delete notes</li>
+                    <li>Support markdown syntax</li>
+                    <li>Real-time markdown preview</li>
+                    <li>Save notes to localStorage</li>
+                    <li>Search and filter notes</li>
+                    <li>Export notes as text file</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Markdown parsing libraries (marked.js)</li>
+                    <li>DOM manipulation</li>
+                    <li>localStorage API</li>
+                    <li>File download functionality</li>
+                    <li>Text editor implementation</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to implement real-time preview without lag?</li>
+                    <li>How to handle autosave functionality?</li>
+                    <li>How to implement note versioning/history?</li>
+                    <li>How to handle large markdown documents?</li>
+                    <li>How to support rich formatting without markdown?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Very large notes (10,000+ lines)</li>
+                    <li>Invalid markdown syntax</li>
+                    <li>Storage quota exceeded</li>
+                    <li>Unsaved changes warning</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 8,
+                title: 'Project 8: Build a Music Player',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Play, pause, stop, next, previous track</li>
+                    <li>Display current track info and album art</li>
+                    <li>Progress bar with seek functionality</li>
+                    <li>Volume control</li>
+                    <li>Playlist management</li>
+                    <li>Repeat and shuffle modes</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>HTML5 Audio API</li>
+                    <li>Event handling and listeners</li>
+                    <li>DOM manipulation</li>
+                    <li>Array methods for playlist</li>
+                    <li>localStorage for preferences</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to implement gapless playback?</li>
+                    <li>How to handle different audio formats?</li>
+                    <li>How to implement equalizer controls?</li>
+                    <li>How to show real-time audio visualization?</li>
+                    <li>How to implement crossfading between tracks?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Audio file loading fails</li>
+                    <li>Browser doesn't support audio format</li>
+                    <li>User seeks past file duration</li>
+                    <li>Multiple players on same page</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 9,
+                title: 'Project 9: Build a Real-time Currency Converter',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Support multiple currencies</li>
+                    <li>Fetch live exchange rates from API</li>
+                    <li>Convert between currencies</li>
+                    <li>Display rate change history</li>
+                    <li>Cache rates for offline use</li>
+                    <li>Error handling for API failures</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Fetch API and async/await</li>
+                    <li>Error handling</li>
+                    <li>Data persistence (localStorage/IndexedDB)</li>
+                    <li>Caching strategies</li>
+                    <li>Real-time data updates</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to cache exchange rates efficiently?</li>
+                    <li>How to update rates periodically?</li>
+                    <li>How to handle currency with no exchange rate?</li>
+                    <li>How to calculate conversion with fees?</li>
+                    <li>How to show historical rate trends?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>API rate limits exceeded</li>
+                    <li>No internet connection</li>
+                    <li>Stale exchange rate data</li>
+                    <li>Invalid currency codes</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 10,
+                title: 'Project 10: Build a Form Validator',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Validate email, password, phone numbers</li>
+                    <li>Real-time validation feedback</li>
+                    <li>Custom validation rules</li>
+                    <li>Show error messages</li>
+                    <li>Submit form with full validation</li>
+                    <li>Use regex for pattern matching</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Regular expressions</li>
+                    <li>Event listeners</li>
+                    <li>Form validation logic</li>
+                    <li>DOM manipulation</li>
+                    <li>User feedback and error handling</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to validate without external libraries?</li>
+                    <li>How to handle async validation (email exists)?</li>
+                    <li>How to create reusable validation rules?</li>
+                    <li>How to show field-specific error messages?</li>
+                    <li>How to implement password strength meter?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>International email addresses</li>
+                    <li>Phone numbers in different formats</li>
+                    <li>Special characters in password</li>
+                    <li>Empty vs whitespace-only fields</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 11,
+                title: 'Project 11: Build a Password Strength Checker',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Check password length (min 8 chars)</li>
+                    <li>Validate uppercase, lowercase, numbers, special chars</li>
+                    <li>Show strength indicator (Weak/Medium/Strong)</li>
+                    <li>Real-time feedback as user types</li>
+                    <li>Display password requirements checklist</li>
+                    <li>Suggest password improvements</li>
+                    <li>Password visibility toggle</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Regular expressions</li>
+                    <li>DOM manipulation</li>
+                    <li>Event listeners</li>
+                    <li>Conditional logic</li>
+                    <li>User experience design</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to calculate password entropy?</li>
+                    <li>How to detect common weak passwords?</li>
+                    <li>How to securely display/hide passwords?</li>
+                    <li>How to suggest secure passwords?</li>
+                    <li>How to check against breach databases?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Very long passwords</li>
+                    <li>Unicode and special characters</li>
+                    <li>Consecutive repeated characters</li>
+                    <li>Common patterns (123, abc, etc)</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 12,
+                title: 'Project 12: Build a Study Timer with Breaks',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>25-minute work sessions, 5-minute breaks</li>
+                    <li>Start, pause, reset controls</li>
+                    <li>Visual countdown display</li>
+                    <li>Sound notification when timer ends</li>
+                    <li>Track completed sessions</li>
+                    <li>Customizable work/break time</li>
+                    <li>Save session history</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>setInterval and setTimeout</li>
+                    <li>localStorage for persistence</li>
+                    <li>DOM manipulation</li>
+                    <li>Audio API</li>
+                    <li>State management</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to handle time accuracy with setInterval?</li>
+                    <li>How to prevent timer manipulation?</li>
+                    <li>How to sync timer across tabs?</li>
+                    <li>How to implement sounds without lag?</li>
+                    <li>How to generate productivity reports?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Browser tab gets inactive</li>
+                    <li>System clock changes</li>
+                    <li>Timer goes negative</li>
+                    <li>Audio unable to play</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 13,
+                title: 'Project 13: Build a Movie Search App',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Search movies using OMDB API</li>
+                    <li>Display search results with posters</li>
+                    <li>Show movie details (rating, year, plot)</li>
+                    <li>Add/remove movies from favorites</li>
+                    <li>View favorite movies list</li>
+                    <li>Pagination for search results</li>
+                    <li>Error handling for API limits</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Fetch API and async/await</li>
+                    <li>DOM manipulation</li>
+                    <li>localStorage for favorites</li>
+                    <li>Error handling</li>
+                    <li>Pagination logic</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to handle API key security?</li>
+                    <li>How to cache search results?</li>
+                    <li>How to implement search suggestions?</li>
+                    <li>How to handle rate limiting?</li>
+                    <li>How to implement infinite scroll?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>No results found</li>
+                    <li>API returns missing data</li>
+                    <li>Images fail to load</li>
+                    <li>User rapidly changes search</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 14,
+                title: 'Project 14: Build a Calculator with History',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Basic operations: add, subtract, multiply, divide</li>
+                    <li>Handle decimal numbers</li>
+                    <li>Show calculation history</li>
+                    <li>Clear history button</li>
+                    <li>Click on history to reuse previous calculations</li>
+                    <li>Keyboard input support</li>
+                    <li>Save calculation history to local storage</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Event handling</li>
+                    <li>DOM manipulation</li>
+                    <li>localStorage API</li>
+                    <li>Parsing and calculations</li>
+                    <li>Error handling for invalid inputs</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to handle operator precedence?</li>
+                    <li>How to prevent floating point errors?</li>
+                    <li>How to implement scientific calculator?</li>
+                    <li>How to evaluate expressions safely?</li>
+                    <li>How to handle keyboard shortcuts?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Division by zero</li>
+                    <li>Very large numbers</li>
+                    <li>Floating point precision errors (0.1 + 0.2)</li>
+                    <li>Multiple operators in sequence</li>
+                </ul>`
+            },
+            {
+                level: 'project',
+                number: 15,
+                title: 'Project 15: Build a Quiz Game with Scoring',
+                answer: `<strong>Requirements:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Create quiz questions with multiple choice answers</li>
+                    <li>20-second timer per question</li>
+                    <li>Track score and correct/incorrect answers</li>
+                    <li>Show results after each question</li>
+                    <li>Display final score with percentage</li>
+                    <li>Difficulty levels (easy/medium/hard)</li>
+                    <li>Leaderboard with top scores</li>
+                </ul>
+                <strong>Key Topics:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>Set/clear intervals</li>
+                    <li>Event handling</li>
+                    <li>Data structures and algorithms</li>
+                    <li>localStorage for leaderboard</li>
+                    <li>State management</li>
+                </ul>
+                <strong>Common Interview Questions:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>How to prevent answer peeking before timer?</li>
+                    <li>How to implement adaptive difficulty?</li>
+                    <li>How to calculate weighted scores?</li>
+                    <li>How to prevent cheating/timer manipulation?</li>
+                    <li>How to implement multi-player mode?</li>
+                </ul>
+                <strong>Edge Cases:</strong>
+                <ul style="margin-left: 20px;">
+                    <li>User closes browser during quiz</li>
+                    <li>Timer runs out before answer submitted</li>
+                    <li>Network disconnect</li>
+                    <li>Clock/time synchronization issues</li>
+                </ul>`
+            }
+        ];
+
+        function createQuestionCard(q) {
+            return `
+                <div class="question-card active ${q.level}">
+                    <div class="question-header" onclick="toggleQuestion(event)">
+                        <div>
+                            <div class="question-title">
+                                <span>${q.number}. ${q.title}</span>
+                            </div>
+                        </div>
+                        <span class="difficulty-badge ${q.level}">${q.level.toUpperCase()}</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    <div class="question-body">
+                        <div class="answer">
+                            <h4>Answer:</h4>
+                            ${q.answer}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleQuestion(event) {
+            const header = event.currentTarget;
+            const card = header.parentElement;
+            const body = card.querySelector('.question-body');
+            const icon = header.querySelector('.toggle-icon');
+
+            body.classList.toggle('open');
+            icon.classList.toggle('open');
+
+            // Auto-scroll to the question when clicked
+            if (body.classList.contains('open')) {
+                setTimeout(() => {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+
+        function expandAllQuestions() {
+            const cards = document.querySelectorAll('.question-card.active');
+            cards.forEach(card => {
+                const body = card.querySelector('.question-body');
+                const icon = card.querySelector('.toggle-icon');
+                
+                body.classList.add('open');
+                icon.classList.add('open');
+            });
+
+            // Smooth scroll to first question
+            setTimeout(() => {
+                const firstCard = document.querySelector('.question-card.active');
+                if (firstCard) {
+                    firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 200);
+        }
+
+        function collapseAllQuestions() {
+            const cards = document.querySelectorAll('.question-card.active');
+            cards.forEach(card => {
+                const body = card.querySelector('.question-body');
+                const icon = card.querySelector('.toggle-icon');
+                
+                body.classList.remove('open');
+                icon.classList.remove('open');
+            });
+        }
+
+        function renderQuestions(level) {
+            const container = document.getElementById('questionsContainer');
+            let filtered = questions;
+
+            if (level !== 'all') {
+                filtered = questions.filter(q => q.level === level);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-questions-msg">No questions found.</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(q => createQuestionCard(q)).join('');
+        }
+
+        function filterQuestions(level, button) {
+            currentFilter = level;
+            
+            // Update active button
+            document.querySelectorAll('.level-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            // Render filtered questions
+            renderQuestions(level);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderQuestions('all');
+        });
+    </script>
+</body>
+</html>`

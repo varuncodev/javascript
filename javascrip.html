@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Coding Practice - Step by Step Guides</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .level-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .level-button:hover,
+        .level-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .practice-card {
+            background: #f9f9f9;
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .practice-card.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .practice-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .step {
+            background: white;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #764ba2;
+        }
+
+        .step h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .keyword { color: #ff79c6; }
+        .function { color: #8be9fd; }
+        .string { color: #f1fa8c; }
+        .number { color: #bd93f9; }
+        .comment { color: #6272a4; }
+
+        .output {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .challenge {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #ffc107;
+        }
+
+        .challenge h5 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .tips {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #0066cc;
+        }
+
+        .tips strong {
+            color: #0066cc;
+        }
+
+        footer {
+            background: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 JavaScript Coding Practice</h1>
+            <p>Step-by-Step Guides with Full Working Code Examples</p>
+        </header>
+
+        <div class="content">
+            <div class="nav-buttons">
+                <button class="level-button active" onclick="filterPractice('basic', this)">Basic (1-25)</button>
+                <button class="level-button" onclick="filterPractice('intermediate', this)">Intermediate (1-10)</button>
+                <button class="level-button" onclick="filterPractice('advanced', this)">Advanced (1-5)</button>
+            </div>
+
+            <div id="practiceContainer"></div>
+        </div>
+
+        <footer>
+            <p>💡 Pro Tip: Copy each code example, run it in your browser console, and modify it to understand better!</p>
+        </footer>
+    </div>
+
+    <script>
+        const practices = {
+            basic: [
+                {
+                    title: '1. Variables - var, let, const',
+                    steps: [
+                        {
+                            name: 'Step 1: Understand Scope',
+                            code: `// VAR - Function scope
+function testVar() {
+    var x = 10;
+    if (true) {
+        var x = 20; // Same variable!
+    }
+    console.log(x); // 20
+}
+
+// LET - Block scope
+function testLet() {
+    let y = 10;
+    if (true) {
+        let y = 20; // Different variable
+    }
+    console.log(y); // 10
+}
+
+// CONST - Block scope, can't reassign
+function testConst() {
+    const z = 10;
+    // z = 20; // ERROR: Assignment to constant variable
+}
+
+testVar();
+testLet();
+testConst();`
+                        },
+                        {
+                            name: 'Step 2: Try This Practice',
+                            code: `// PRACTICE: Declare variables and log them
+let name = "John";
+const age = 25;
+var score = 95;
+
+console.log(name);  // "John"
+console.log(age);   // 25
+console.log(score); // 95
+
+// PRACTICE: Try to reassign them
+name = "Jane";      // Works with let
+score = 90;         // Works with var
+// age = 30;         // ERROR with const
+
+console.log(name, age, score); // "Jane" 25 90`
+                        }
+                    ],
+                    challenge: 'Create variables using var, let, and const. Try to reassign each and observe what happens.'
+                },
+                {
+                    title: '2. Data Types',
+                    steps: [
+                        {
+                            name: 'Step 1: Primitive Types',
+                            code: `// Primitive types
+let num = 42;
+let str = "Hello";
+let bool = true;
+let nullVal = null;
+let undefinedVal;
+let sym = Symbol("id");
+let bigInt = 123n;
+
+console.log(typeof num);         // "number"
+console.log(typeof str);         // "string"
+console.log(typeof bool);        // "boolean"
+console.log(typeof nullVal);     // "object" (js bug!)
+console.log(typeof undefinedVal);// "undefined"
+console.log(typeof sym);         // "symbol"
+console.log(typeof bigInt);      // "bigint"`
+                        },
+                        {
+                            name: 'Step 2: Reference Types',
+                            code: `// Reference types
+let obj = {
+    name: "John",
+    age: 25,
+    greet() {
+        return "Hi";
+    }
+};
+
+let arr = [1, 2, 3, "four"];
+let func = function() { console.log("Hi"); };
+
+console.log(typeof obj);  // "object"
+console.log(typeof arr);  // "object"
+console.log(typeof func); // "function"
+
+// Accessing values
+console.log(obj.name);    // "John"
+console.log(arr[0]);      // 1
+console.log(func());      // "Hi"`
+                        }
+                    ],
+                    challenge: 'Create one of each data type and use typeof to verify them.'
+                },
+                {
+                    title: '3. Functions and Arrow Functions',
+                    steps: [
+                        {
+                            name: 'Step 1: Function Types',
+                            code: `// Declaration Function
+function add(a, b) {
+    return a + b;
+}
+
+// Expression Function
+const subtract = function(a, b) {
+    return a - b;
+};
+
+// Arrow Function
+const multiply = (a, b) => a * b;
+
+// Arrow with single param
+const square = x => x * x;
+
+// Arrow with no params
+const greet = () => "Hello!";
+
+console.log(add(5, 3));        // 8
+console.log(subtract(10, 4));  // 6
+console.log(multiply(4, 5));   // 20
+console.log(square(5));        // 25
+console.log(greet());          // "Hello!"`
+                        },
+                        {
+                            name: 'Step 2: Function with Defaults',
+                            code: `// Default parameters
+function greet(name = "Guest", greeting = "Hello") {
+    return \`\${greeting}, \${name}!\`;
+}
+
+console.log(greet());              // "Hello, Guest!"
+console.log(greet("John"));        // "Hello, John!"
+console.log(greet("Jane", "Hi"));  // "Hi, Jane!"
+
+// Arrow function with defaults
+const multiply = (a = 1, b = 1) => a * b;
+
+console.log(multiply());      // 1
+console.log(multiply(5));     // 5
+console.log(multiply(5, 3));  // 15`
+                        }
+                    ],
+                    challenge: 'Create a function that takes 3 parameters (name, age, city) and returns a greeting message using template literals.'
+                },
+                {
+                    title: '4. Arrays and Methods',
+                    steps: [
+                        {
+                            name: 'Step 1: Array Methods - Adding/Removing',
+                            code: `let fruits = ["Apple", "Banana", "Orange"];
+
+// Adding elements
+fruits.push("Mango");           // Add to end
+console.log(fruits);            // [..., "Mango"]
+
+fruits.unshift("Grape");        // Add to start
+console.log(fruits);            // ["Grape", ...]
+
+// Removing elements
+fruits.pop();                   // Remove from end
+fruits.shift();                 // Remove from start
+
+// Inserting at specific position
+fruits.splice(1, 0, "Kiwi");    // Insert "Kiwi" at index 1
+console.log(fruits);`
+                        },
+                        {
+                            name: 'Step 2: Array Methods - Searching',
+                            code: `let numbers = [10, 20, 30, 40, 50];
+
+// Finding elements
+console.log(numbers.includes(30));     // true
+console.log(numbers.indexOf(30));      // 2
+console.log(numbers.find(x => x > 25)); // 30
+console.log(numbers.filter(x => x > 25)); // [30, 40, 50]
+
+// Some & Every
+console.log(numbers.some(x => x > 45));   // true (at least one)
+console.log(numbers.every(x => x > 0));   // true (all)`
+                        },
+                        {
+                            name: 'Step 3: Array Methods - Transform',
+                            code: `let nums = [1, 2, 3, 4, 5];
+
+// map() - transform each element
+let doubled = nums.map(x => x * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// filter() - keep elements that match
+let evens = nums.filter(x => x % 2 === 0);
+console.log(evens);   // [2, 4]
+
+// reduce() - combine into single value
+let sum = nums.reduce((acc, x) => acc + x, 0);
+console.log(sum);     // 15
+
+// Chaining methods
+let result = nums
+    .filter(x => x > 2)        // [3, 4, 5]
+    .map(x => x * 2)           // [6, 8, 10]
+    .reduce((a, b) => a + b);  // 24
+console.log(result); // 24`
+                        }
+                    ],
+                    challenge: 'Create an array of numbers. Filter even numbers, double them, and sum them using method chaining.'
+                },
+                {
+                    title: '5. Objects and Methods',
+                    steps: [
+                        {
+                            name: 'Step 1: Creating and Accessing Objects',
+                            code: `// Object literal
+const person = {
+    name: "John",
+    age: 30,
+    city: "New York",
+    hobbies: ["reading", "gaming"],
+    
+    // Method
+    greet() {
+        return \`Hello, I'm \${this.name}\`;
+    },
+    
+    // Another method
+    introduce() {
+        return \`\${this.name} is \${this.age} years old\`;
+    }
+};
+
+// Accessing properties
+console.log(person.name);        // "John"
+console.log(person["age"]);      // 30
+console.log(person.hobbies[0]);  // "reading"
+
+// Calling methods
+console.log(person.greet());     // "Hello, I'm John"
+console.log(person.introduce()); // "John is 30 years old"`
+                        },
+                        {
+                            name: 'Step 2: Modifying and Iterating Objects',
+                            code: `const user = {
+    name: "Jane",
+    age: 25,
+    email: "jane@example.com"
+};
+
+// Adding property
+user.country = "USA";
+
+// Modifying property
+user.age = 26;
+
+// Deleting property
+delete user.email;
+
+// Iterating
+console.log(Object.keys(user));     // ["name", "age", "country"]
+console.log(Object.values(user));   // ["Jane", 26, "USA"]
+console.log(Object.entries(user));  // [["name", "Jane"], ...]
+
+// for...in loop
+for (let key in user) {
+    console.log(\`\${key}: \${user[key]}\`);
+}`
+                        }
+                    ],
+                    challenge: 'Create a student object with name, roll number, and grades. Add a method to calculate average grade.'
+                }
+            ],
+            intermediate: [
+                {
+                    title: '1. Closures - Counter Example',
+                    steps: [
+                        {
+                            name: 'Step 1: What is a Closure?',
+                            code: `// Simple closure
+function createCounter(start = 0) {
+    let count = start; // Private variable
+    
+    // Return an object with methods (closures)
+    return {
+        increment() {
+            return ++count;
+        },
+        decrement() {
+            return --count;
+        },
+        getCount() {
+            return count;
+        }
+    };
+}
+
+const counter = createCounter(10);
+console.log(counter.increment()); // 11
+console.log(counter.increment()); // 12
+console.log(counter.decrement()); // 11
+console.log(counter.getCount()); // 11
+
+// Create another counter - separate count
+const counter2 = createCounter(100);
+console.log(counter2.getCount()); // 100`
+                        },
+                        {
+                            name: 'Step 2: Bank Account with Closures',
+                            code: `function createBankAccount(initialBalance) {
+    let balance = initialBalance;
+    
+    return {
+        deposit(amount) {
+            if (amount > 0) {
+                balance += amount;
+                return \`Deposited $\${amount}. New balance: $\${balance}\`;
+            }
+            return "Invalid amount";
+        },
+        
+        withdraw(amount) {
+            if (amount > 0 && amount <= balance) {
+                balance -= amount;
+                return \`Withdrew $\${amount}. New balance: $\${balance}\`;
+            }
+            return "Insufficient funds or invalid amount";
+        },
+        
+        getBalance() {
+            return balance;
+        }
+    };
+}
+
+const myAccount = createBankAccount(1000);
+console.log(myAccount.deposit(500));   // "Deposited $500..."
+console.log(myAccount.withdraw(200));  // "Withdrew $200..."
+console.log(myAccount.getBalance());   // 1300`
+                        }
+                    ],
+                    challenge: 'Create a closure that tracks how many times a function has been called (call counter).'
+                },
+                {
+                    title: '2. This, Call, Apply, Bind',
+                    steps: [
+                        {
+                            name: 'Step 1: Understanding This',
+                            code: `const person = {
+    name: "John",
+    age: 30,
+    
+    introduce() {
+        console.log(\`I'm \${this.name}, age \${this.age}\`);
+    }
+};
+
+person.introduce(); // "I'm John, age 30"
+
+// Problem: this changes when function is called separately
+const greet = person.introduce;
+// greet(); // ERROR or undefined (this lost!)
+
+// Solution: bind the this
+const boundGreet = person.introduce.bind(person);
+boundGreet(); // Works! "I'm John, age 30"`
+                        },
+                        {
+                            name: 'Step 2: Call vs Apply vs Bind',
+                            code: `function greet(greeting, punctuation) {
+    return \`\${greeting}, \${this.name}\${punctuation}\`;
+}
+
+const person1 = { name: "Alice" };
+const person2 = { name: "Bob" };
+
+// call() - execute immediately
+console.log(greet.call(person1, "Hello", "!"));  // "Hello, Alice!"
+
+// apply() - execute immediately (array of args)
+console.log(greet.apply(person2, ["Hi", "?"])); // "Hi, Bob?"
+
+// bind() - return new function
+const greetAlice = greet.bind(person1, "Hey");
+console.log(greetAlice(".")); // "Hey, Alice."
+
+// Practical example: Button click
+class Button {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    onClick() {
+        console.log(\`\${this.name} was clicked\`);
+    }
+}
+
+const btn = new Button("Submit");
+// btn.onClick(); // Works
+// setTimeout(btn.onClick, 1000); // ERROR - this lost!
+setTimeout(btn.onClick.bind(btn), 1000); // Works!`
+                        }
+                    ],
+                    challenge: 'Create two objects and a function. Use call(), apply(), and bind() to make the function work with both objects.'
+                },
+                {
+                    title: '3. Promises and Async/Await',
+                    steps: [
+                        {
+                            name: 'Step 1: Promises Basics',
+                            code: `// Creating a promise
+const myPromise = new Promise((resolve, reject) => {
+    let success = true;
+    
+    if (success) {
+        resolve("Operation successful!");
+    } else {
+        reject("Operation failed!");
+    }
+});
+
+// Using the promise
+myPromise
+    .then(result => console.log(result))    // If resolved
+    .catch(error => console.log(error));    // If rejected
+    .finally(() => console.log("Done!"));   // Always runs
+
+// Practical example: Fetch data
+function fetchUser(userId) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (userId > 0) {
+                resolve({ id: userId, name: "John" });
+            } else {
+                reject("Invalid user ID");
+            }
+        }, 1000);
+    });
+}
+
+fetchUser(1)
+    .then(user => console.log("User:", user))
+    .catch(err => console.log("Error:", err));`
+                        },
+                        {
+                            name: 'Step 2: Async/Await',
+                            code: `// Async function - cleaner promise handling
+async function getUser(userId) {
+    try {
+        // Wait for promise to resolve
+        const response = await fetchUser(userId);
+        console.log("User:", response);
+        return response;
+    } catch (error) {
+        console.log("Error:", error);
+    }
+}
+
+// Call async function
+getUser(1);
+
+// Practical: Multiple async operations
+async function loadUserWithPosts(userId) {
+    try {
+        const user = await fetchUser(userId);
+        const posts = await fetchPosts(userId);
+        return { user, posts };
+    } catch (error) {
+        console.log("Failed to load:", error);
+    }
+}
+
+// Helper function for demo
+function fetchPosts(userId) {
+    return Promise.resolve([
+        { id: 1, title: "Post 1" },
+        { id: 2, title: "Post 2" }
+    ]);
+}
+
+loadUserWithPosts(1).then(data => console.log(data));`
+                        }
+                    ],
+                    challenge: 'Create a promise that resolves after 2 seconds with some data. Use async/await to handle it.'
+                },
+                {
+                    title: '4. Destructuring',
+                    steps: [
+                        {
+                            name: 'Step 1: Array Destructuring',
+                            code: `// Basic array destructuring
+const [first, second, third] = [10, 20, 30];
+console.log(first);  // 10
+console.log(second); // 20
+
+// Skip elements
+const [, , third] = [10, 20, 30];
+console.log(third); // 30
+
+// Rest operator
+const [first, ...rest] = [10, 20, 30, 40];
+console.log(first); // 10
+console.log(rest);  // [20, 30, 40]
+
+// With defaults
+const [a, b = 0, c = 0] = [5];
+console.log(a, b, c); // 5 0 0
+
+// Swapping values
+let x = 1, y = 2;
+[x, y] = [y, x];
+console.log(x, y); // 2 1`
+                        },
+                        {
+                            name: 'Step 2: Object Destructuring',
+                            code: `// Basic object destructuring
+const person = { name: "John", age: 30, city: "NY" };
+const { name, age } = person;
+console.log(name, age); // "John", 30
+
+// Renaming
+const { name: personName, age: personAge } = person;
+console.log(personName); // "John"
+
+// Defaults
+const { name, country = "USA" } = person;
+console.log(country); // "USA"
+
+// Nested destructuring
+const user = {
+    id: 1,
+    profile: { name: "Jane", email: "jane@example.com" }
+};
+
+const { profile: { email } } = user;
+console.log(email); // "jane@example.com"
+
+// Function parameters
+function displayUser({ name, age }) {
+    console.log(\`\${name} is \${age} years old\`);
+}
+
+displayUser({ name: "John", age: 30 }); // "John is 30 years old"`
+                        }
+                    ],
+                    challenge: 'Destructure an array and object in the same code. Use defaults and renaming.'
+                }
+            ],
+            advanced: [
+                {
+                    title: '1. Prototypes and Inheritance',
+                    steps: [
+                        {
+                            name: 'Step 1: Understanding Prototypes',
+                            code: `// Constructor function
+function Animal(name) {
+    this.name = name;
+}
+
+// Add method to prototype (shared by all instances)
+Animal.prototype.speak = function() {
+    return \`\${this.name} makes a sound\`;
+};
+
+const dog = new Animal("Dog");
+const cat = new Animal("Cat");
+
+console.log(dog.speak()); // "Dog makes a sound"
+console.log(cat.speak()); // "Cat makes a sound"
+
+// Inheritance
+function Dog(name, breed) {
+    Animal.call(this, name); // Call parent constructor
+    this.breed = breed;
+}
+
+// Set up prototype chain
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+// Add Dog-specific method
+Dog.prototype.bark = function() {
+    return \`\${this.name} barks: Woof!\`;
+};
+
+const myDog = new Dog("Buddy", "Golden Retriever");
+console.log(myDog.speak()); // "Buddy makes a sound" (inherited)
+console.log(myDog.bark());  // "Buddy barks: Woof!" (own method)`
+                        },
+                        {
+                            name: 'Step 2: ES6 Classes',
+                            code: `// ES6 Class (modern way)
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        return \`\${this.name} makes a sound\`;
+    }
+}
+
+// Inheritance
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name); // Call parent constructor
+        this.breed = breed;
+    }
+    
+    speak() {
+        return \`\${this.name} barks: Woof!\`; // Override
+    }
+    
+    getInfo() {
+        return \`\${this.name} is a \${this.breed}\`;
+    }
+}
+
+const myDog = new Dog("Max", "Labrador");
+console.log(myDog.speak());   // "Max barks: Woof!"
+console.log(myDog.getInfo()); // "Max is a Labrador"`
+                        }
+                    ],
+                    challenge: 'Create a Vehicle class and extend it with Car and Bike classes. Add specific methods to each.'
+                },
+                {
+                    title: '2. Event Handling Advanced',
+                    steps: [
+                        {
+                            name: 'Step 1: Event Delegation',
+                            code: `// HTML: <ul id="list"><li>Item 1</li><li>Item 2</li></ul>
+
+const list = document.getElementById("list");
+
+// Event delegation - single listener on parent
+list.addEventListener("click", (event) => {
+    if (event.target.tagName === "LI") {
+        console.log("Clicked:", event.target.textContent);
+        event.target.style.backgroundColor = "yellow";
+    }
+});
+
+// Dynamic items still work!
+const newItem = document.createElement("li");
+newItem.textContent = "Item 3";
+list.appendChild(newItem); // This also works with listener above`
+                        },
+                        {
+                            name: 'Step 2: Event Bubbling vs Capturing',
+                            code: `// Event propagation demo
+const parent = document.getElementById("parent");
+const child = document.getElementById("child");
+
+// Bubbling (default) - goes up (child -> parent)
+parent.addEventListener("click", () => {
+    console.log("Parent bubbling");
+});
+
+child.addEventListener("click", (e) => {
+    console.log("Child bubbling");
+    // e.stopPropagation(); // Prevent bubbling
+});
+
+// Capturing - goes down (parent -> child)
+parent.addEventListener("click", () => {
+    console.log("Parent capturing");
+}, true); // Third param = true for capturing
+
+// Click child: logs "Parent capturing" then "Child bubbling"`
+                        }
+                    ],
+                    challenge: 'Create a to-do list. Using event delegation, add delete functionality to dynamically added items.'
+                },
+                {
+                    title: '3. JSON and API Calls',
+                    steps: [
+                        {
+                            name: 'Step 1: Working with JSON',
+                            code: `// JSON - JavaScript Object Notation
+const user = {
+    id: 1,
+    name: "John",
+    email: "john@example.com",
+    hobbies: ["reading", "gaming"]
+};
+
+// Convert object to JSON string
+const jsonString = JSON.stringify(user);
+console.log(jsonString);
+// "{\\"id\\":1,\\"name\\":\\"John\\",...}"
+
+// Convert JSON string back to object
+const parsed = JSON.parse(jsonString);
+console.log(parsed.name); // "John"
+
+// Pretty print JSON
+const prettyJson = JSON.stringify(user, null, 2);
+console.log(prettyJson);
+/* {
+  "id": 1,
+  "name": "John",
+  ...
+} */`
+                        },
+                        {
+                            name: 'Step 2: Fetch API',
+                            code: `// Fetching data from API
+async function getUsers() {
+    try {
+        const response = await fetch(
+            'https://jsonplaceholder.typicode.com/users'
+        );
+        
+        // Check if response is ok
+        if (!response.ok) {
+            throw new Error(\`HTTP error! status: \${response.status}\`);
+        }
+        
+        // Parse JSON
+        const users = await response.json();
+        console.log(users);
+        return users;
+        
+    } catch (error) {
+        console.error("Fetch failed:", error);
+    }
+}
+
+// POST request
+async function createUser(userData) {
+    try {
+        const response = await fetch(
+            'https://jsonplaceholder.typicode.com/users',
+            {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            }
+        );
+        
+        const result = await response.json();
+        console.log("Created:", result);
+        return result;
+        
+    } catch (error) {
+        console.error("Failed:", error);
+    }
+}
+
+// Usage
+getUsers();
+createUser({ name: "Jane", email: "jane@example.com" });`
+                        }
+                    ],
+                    challenge: 'Fetch data from a public API, parse it, and display it. Try both GET and POST methods.'
+                }
+            ]
+        };
+
+        function createPracticeCard(practice) {
+            let html = `
+                <div class="practice-card active">
+                    <h3>${practice.title}</h3>
+            `;
+
+            practice.steps.forEach(step => {
+                html += `
+                    <div class="step">
+                        <h4>${step.name}</h4>
+                        <div class="code-block">${escapeHtml(step.code)}</div>
+                    </div>
+                `;
+            });
+
+            if (practice.challenge) {
+                html += `
+                    <div class="challenge">
+                        <h5>🎯 Challenge:</h5>
+                        <p>${practice.challenge}</p>
+                    </div>
+                `;
+            }
+
+            html += `
+                <div class="tips">
+                    <strong>💡 Tips:</strong>
+                    <ul>
+                        <li>Copy the code and paste it in browser console (F12)</li>
+                        <li>Modify variables and see what happens</li>
+                        <li>Try to break it and fix it</li>
+                        <li>Create your own variations</li>
+                    </ul>
+                </div>
+            `;
+
+            html += `</div>`;
+            return html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function renderPractices(level) {
+            const container = document.getElementById('practiceContainer');
+            let html = '';
+
+            if (practices[level]) {
+                practices[level].forEach(practice => {
+                    html += createPracticeCard(practice);
+                });
+            }
+
+            container.innerHTML = html;
+        }
+
+        function filterPractice(level, button) {
+            // Update active button
+            document.querySelectorAll('.level-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            // Render practices
+            renderPractices(level);
+        }
+
+        // Initial render
+        renderPractices('basic');
+    </script>
+</body>
+</html>
