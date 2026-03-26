@@ -35,3 +35,12 @@ myarr2.unshift(9)
 console.log(myarr2) 
 myarr2.shift()
 console.log(myarr2)
+
+
+
+const marvel_hero =["ironman","thor","hulk","captain america"] 
+const dc_hero =["superman","batman","flash","aquaman"]
+marvel_hero.push(dc_hero)  //push and concat gives same result but concaat return new array
+console.log(marvel_hero)
+console.log(marvel_hero[4][0]) // to access superman
+
