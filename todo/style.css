@@ -52,3 +52,9 @@ html,body{
     border-radius: 5px;
     border: none;
 }
+.taskcontainer .task .savebtn{
+display: none;
+}
+.taskcontainer .task .editinput{
+    display: none;
+}
